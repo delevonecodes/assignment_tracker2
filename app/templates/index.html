@@ -7,14 +7,43 @@
         <title>{% block title %}Assignment Tracker{% endblock %}</title>
     </head>
     <body>
-        <header>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            {% if category == 'error' %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                </div>
+            {% elif category == 'success' %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div>
+            {% block content %}
             <h1>Assignment Tracker</h1>
-            <p>Welcome to the Landing Page</p>
-        </header>
-        <main>
-            <h2>About</h2>
-            <p>This is a simple assignment tracker. You can save, update, create, and delete assignments. This is the Best CRUD Application!</p>
-        </main>
+            <p>Welcome to the Assignment Tracker!</p>
+            <h2>This is the landing page for the Assignment Tracker</h2>
+            {% endblock %}
+            <nav>
+                {% if user.is_authenticated %}
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/auth/logout">Logout</a></li>
+                </ul>
+                {% else %}
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/auth/login">Login</a></li>
+                    <li><a href="/auth/sign-up">Sign Up</a></li> 
+                </ul>
+                {% endif %}
+            </nav>
+        </div>
     </body>
 </html>
 
