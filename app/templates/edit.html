@@ -4,11 +4,11 @@
 
 {% block content %}
     <div align="center">
-        <h1>Edit Note</h1>
-        <form method="POST" action="/edit-note/{{ note.id }}">
-            <textarea name="note" id="note">{{ note.data }}</textarea>
+        <h1>Edit Assignment</h1>
+        <form method="POST" action="/edit-assignment/{{ assignment.id }}">
+            <textarea name="assignment" id="assignment">{{ assignment.data }}</textarea>
             <div align="center">
-                <input type="submit" value="Update Note">
+                <input type="submit" value="Update Assignment">
             </div>
         </form>
     </div>

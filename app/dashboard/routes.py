@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, flash, request
+from flask import Blueprint, redirect, render_template, flash, request
 from flask_login import login_required, current_user
-from app.models import Note
+from app.models import Assignment
 from app import db
 
 views = Blueprint('views', __name__)
@@ -15,42 +15,39 @@ def home():
 @login_required
 def dashboard():
     if request.method == "POST":
-        note = request.form.get("note")
-        if len(note) < 1:
-            flash("Note is too short!", category="error")
+        assignment = request.form.get("assignment")
+        if len(assignment) < 1:
+            flash("Assignment is too short!", category="error")
         else:
-            flash("Note added!", category="success")
-            new_note = Note(data=note, user_id=current_user.id)
+            flash("Assignment added!", category="success")
+            new_assignment = Assignment(data=assignment, student=current_user.id)
             try:
-                db.session.add(new_note)
+                db.session.add(new_assignment)
                 db.session.commit()
             except Exception as e:
-                db.session.rollback()
-                flash(f"{e} occurred while adding the note.", category="error")
+                flash(f"{e} occurred while adding the assignment.", category="error")
 
     return render_template("dashboard.html", user=current_user)
 
-@views.route("/delete-note/<int:id>", methods=["POST"])
-def delete_note(id):
-    task = Note.query.get_or_404(id)
+@views.route("/delete-assignment/<int:id>", methods=["POST"])
+def delete_assignment(id):
+    assignment = Assignment.query.get_or_404(id)
     try:
-        db.session.delete(task)
+        db.session.delete(assignment)
         db.session.commit()
-        flash("Note deleted!", category="success")
+        flash("Assignment deleted!", category="success")
     except Exception as e:
-        db.session.rollback()
-        flash(f"{e} occurred while deleting the note.", category="error")
-    return render_template("dashboard.html", user=current_user)
+        flash(f"{e} occurred while deleting the assignment.", category="error")
+    return redirect("/dashboard")
 
-@views.route("/edit-note/<int:id>", methods=["GET", "POST"])
-def edit_note(id):
-    note = Note.query.get_or_404(id)
+@views.route("/edit-assignment/<int:id>", methods=["GET", "POST"])
+def edit_assignment(id):
+    assignment = Assignment.query.get_or_404(id)
     if request.method == "POST":
-        note.data = request.form.get("note")
+        assignment.data = request.form.get("assignment")
         try:
             db.session.commit()
-            flash("Note updated!", category="success")
+            flash("Assignment updated!", category="success")
         except Exception as e:
-            db.session.rollback()
-            flash(f"{e} occurred while updating the note.", category="error")
-    return render_template("edit.html", note=note, user=current_user)
+            flash(f"{e} occurred while updating the assignment.", category="error")
+    return render_template("edit.html", assignment=assignment, user=current_user)

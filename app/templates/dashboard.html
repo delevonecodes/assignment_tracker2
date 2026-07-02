@@ -6,17 +6,17 @@
         <h1>Dashboard</h1>
         <p>Welcome {{ user.username }}!</p>
         <h2>This is the dashboard page for the Assignment Tracker</h2>
-        <ul id="notes">
-            {% for note in user.notes %}
-            <li>{{ note.data }}<form method="POST" action="/delete-note/{{ note.id }}" style="display: inline;">
-                <input type="button" value="Delete"><input type="button" value="Edit" onclick="window.location.href='/edit-note/{{ note.id }}'">
+        <ul id="assignments">
+            {% for assignment in user.assignments %}
+            <li>{{ assignment.data }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
+                <input type="submit" value="Delete"><input type="button" value="Edit" onclick="window.location.href='/edit-assignment/{{ assignment.id }}'">
             </form></li>
             {% endfor %}
         </ul>
         <form method="POST">
-            <textarea name="note" id="note"></textarea>
+            <textarea name="assignment" id="assignment"></textarea>
             <div align="center">
-                <input type="submit" value="Add Note">
+                <input type="submit" value="Add Assignment">
             </div>
         </form>
     </div>
