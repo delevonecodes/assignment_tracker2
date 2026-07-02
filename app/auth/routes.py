@@ -56,7 +56,21 @@ def sign_up():
         user_by_username = User.query.filter_by(username=username).first()
 
         def validate_password(p):
-            pass
+            if len(p) not in [8, 128]:
+                return False
+            total = [0, 0, 0, 0]
+            for char in p:
+                if char.isupper():
+                    total[0] += 1
+                elif char.islower():
+                    total[1] += 1
+                elif char.isdigit():
+                    total[2] += 1
+                elif not char.isalnum():
+                    total[3] += 1
+            return all(value > 0 for value in total)
+                
+
 
         if user_by_email:
             flash("Email already exists.", category="error")
@@ -68,8 +82,8 @@ def sign_up():
             flash("Username must be greater than 3 characters.", category="error")
         elif password != password2:
             flash("Passwords must match.", category="error")
-        elif len(password) < 7:
-            flash("Password must be at least 7 characters.", category="error")
+        elif not validate_password(password):
+            flash("Password must be between 8 and 128 characters long, contain upper and lowercase letters, at least one number, and at least one special character.", category="error")
         else:
             user = User(email=email, username=username, password=generate_password_hash(password))
             db.session.add(user)
