@@ -1,6 +1,8 @@
 from flask import Blueprint, redirect, render_template, flash, request
 from flask_login import login_required, current_user
 from app.models import Assignment
+import datetime
+from datetime import date
 from app import db
 
 views = Blueprint('views', __name__)
@@ -15,21 +17,30 @@ def home():
 @login_required
 def dashboard():
     if request.method == "POST":
-        assignment = request.form.get("assignment")
-        if len(assignment) < 1:
-            flash("Assignment is too short!", category="error")
-        else:
+        name = request.form.get("name")
+        course = request.form.get("course")
+        priority = request.form.get("priority")
+        due_date = request.form.get("due_date")
+        notes = request.form.get("notes")
+        try:
+            due_date = datetime.datetime.strptime(due_date, "%Y-%m-%d")
+            due_date = due_date.strftime("%m/%d/%Y")
+        except ValueError:
+            flash("Invalid due date format. Please use mm/dd/yyyy.", category="error")
+            return render_template("dashboard.html", user=current_user)
+        try:
+            new_assignment = Assignment(name=name, course=course, priority=priority, due_date=due_date, notes=notes, student=current_user.id)
+            db.session.add(new_assignment)
+            db.session.commit()
             flash("Assignment added!", category="success")
-            new_assignment = Assignment(data=assignment, student=current_user.id)
-            try:
-                db.session.add(new_assignment)
-                db.session.commit()
-            except Exception as e:
-                flash(f"{e} occurred while adding the assignment.", category="error")
+        except Exception as e:
+            flash(f"Error occurred while adding the assignment, please try again.", category="error")
+            print(f"Error occurred while adding the assignment: {e}")
 
     return render_template("dashboard.html", user=current_user)
 
 @views.route("/delete-assignment/<int:id>", methods=["POST"])
+@login_required
 def delete_assignment(id):
     assignment = Assignment.query.get_or_404(id)
     try:
@@ -37,17 +48,31 @@ def delete_assignment(id):
         db.session.commit()
         flash("Assignment deleted!", category="success")
     except Exception as e:
-        flash(f"{e} occurred while deleting the assignment.", category="error")
+        flash(f"Error occurred while deleting the assignment, please try again.", category="error")
+        print(f"Error occurred while deleting the assignment: {e}")
     return redirect("/dashboard")
 
 @views.route("/edit-assignment/<int:id>", methods=["GET", "POST"])
+@login_required
 def edit_assignment(id):
     assignment = Assignment.query.get_or_404(id)
     if request.method == "POST":
-        assignment.data = request.form.get("assignment")
+        due_date = request.form.get("due_date")
+        try:
+            due_date = datetime.datetime.strptime(due_date, "%Y-%m-%d")
+            due_date = due_date.strftime("%m/%d/%Y")
+        except ValueError:
+            flash("Invalid due date format. Please use mm/dd/yyyy.", category="error")
+            return render_template("edit.html", assignment=assignment, user=current_user)
+        assignment.name = request.form.get("name")
+        assignment.course = request.form.get("course")
+        assignment.priority = request.form.get("priority")
+        assignment.notes = request.form.get("notes")
+        assignment.due_date = due_date
         try:
             db.session.commit()
             flash("Assignment updated!", category="success")
         except Exception as e:
-            flash(f"{e} occurred while updating the assignment.", category="error")
+            flash(f"Error occurred while updating the assignment, please try again.", category="error")
+            print(f"Error occurred while updating the assignment: {e}")
     return render_template("edit.html", assignment=assignment, user=current_user)

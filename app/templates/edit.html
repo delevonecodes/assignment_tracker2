@@ -6,7 +6,20 @@
     <div align="center">
         <h1>Edit Assignment</h1>
         <form method="POST" action="/edit-assignment/{{ assignment.id }}">
-            <textarea name="assignment" id="assignment">{{ assignment.data }}</textarea>
+            <label for="name">Assignment:</label>
+            <input type="text" name="name" id="name" value="{{ assignment.name }}" placeholder="Example: Study for Final Exam" required><br>
+            <label for="course">Course:</label>
+            <input type="text" name="course" id="course" value="{{ assignment.course }}" required><br>
+            <label for="priority">Priority:</label>
+            <select name="priority" id="priority" required>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High" selected>High</option>
+            </select><br>
+            <label for="due_date">Due Date:</label>
+            <input type="date" name="due_date" id="due_date" value= "{{ assignment.due_date }}" required><br>
+            <label for="notes">Notes (optional):</label>
+            <textarea name="notes" id="notes">{{ assignment.notes }}</textarea>
             <div align="center">
                 <input type="submit" value="Update Assignment">
             </div>

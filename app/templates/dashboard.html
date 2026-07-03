@@ -6,18 +6,40 @@
         <h1>Dashboard</h1>
         <p>Welcome {{ user.username }}!</p>
         <h2>This is the dashboard page for the Assignment Tracker</h2>
+        <p>Here you can add, edit, and delete your assignments.</p>
+    </div>
+    <div align="center">
+        <form method="POST">
+            <h3>New Assignment</h3>
+            <label for="name">Assignment:</label>
+            <input type="text" name="name" id="name" placeholder="Example: Study for Final Exam" required><br>
+            <label for="course">Course:</label>
+            <input type="text" name="course" id="course" placeholder="Example: Math 101" required><br>
+            <label for="priority">Priority:</label>
+            <select name="priority" id="priority" required>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High" selected>High</option>
+            </select><br>
+            <label for="due_date">Due Date:</label>
+            <input type="date" name="due_date" id="due_date" required><br>
+            <label for="notes">Notes (optional):</label>
+            <textarea name="notes" id="notes" placeholder="Example: Review chapters 1-5"></textarea><br>
+            <input type="submit" value="Add Assignment">
+        </form>
+    </div>
+    <div align="center">
+        <h3>Your Assignments</h3>
+        {% if not user.assignments %}
+            <p>No assignments yet!</p>
+        {% endif %}
         <ul id="assignments">
             {% for assignment in user.assignments %}
-            <li>{{ assignment.data }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
-                <input type="submit" value="Delete"><input type="button" value="Edit" onclick="window.location.href='/edit-assignment/{{ assignment.id }}'">
+            <li>{{ assignment.name }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
+                <input type="button" value="Edit" onclick="window.location.href='/edit-assignment/{{ assignment.id }}'"><input type="submit" value="Delete">
             </form></li>
             {% endfor %}
         </ul>
-        <form method="POST">
-            <textarea name="assignment" id="assignment"></textarea>
-            <div align="center">
-                <input type="submit" value="Add Assignment">
-            </div>
-        </form>
     </div>
+    
 {% endblock %}

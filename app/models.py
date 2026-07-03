@@ -4,7 +4,11 @@ from sqlalchemy.sql import func
 
 class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.String(10000))
+    name = db.Column(db.String(150))
+    course = db.Column(db.String(150))
+    priority = db.Column(db.String(150))
+    due_date = db.Column(db.String())
+    notes = db.Column(db.String(10000))
     student = db.Column(db.Integer, db.ForeignKey('user.id'))
     
     def __repr__(self):

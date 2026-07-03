@@ -56,7 +56,7 @@ def sign_up():
         user_by_username = User.query.filter_by(username=username).first()
 
         def validate_password(p):
-            if len(p) not in [i for i in range(8, 129)]:
+            if not 8 <= len(p) <= 128:
                 return False
             total = [0, 0, 0, 0]
             for char in p:
