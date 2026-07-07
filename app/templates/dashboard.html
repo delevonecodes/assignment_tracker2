@@ -35,11 +35,18 @@
         {% endif %}
         <ul id="assignments">
             {% for assignment in user.assignments %}
-            <li>{{ assignment.name }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
+            <li>Name: {{ assignment.name }} | Course: {{ assignment.course }} | Priority: {{ assignment.priority }} | Due Date: {{ assignment.due_date }} | Notes: {{ assignment.notes }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
                 <input type="button" value="Edit" onclick="window.location.href='/edit-assignment/{{ assignment.id }}'"><input type="submit" value="Delete">
             </form></li>
             {% endfor %}
         </ul>
+    </div>
+    <div align = "left">
+        <h3>Statistics</h3>
+        <p>Total Assignments: {{ user.assignments|length }}</p>
+        <p>Completed Assignments: {{ stats.completed }}</p>
+        <p>Incomplete Assignments: {{ stats.incomplete }}</p>
+        <P>Completion Rate: {{ "%.1f" | format(stats.rate) }}%</P>
     </div>
     
 {% endblock %}

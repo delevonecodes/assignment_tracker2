@@ -7,8 +7,9 @@ class Assignment(db.Model):
     name = db.Column(db.String(150))
     course = db.Column(db.String(150))
     priority = db.Column(db.String(150))
-    due_date = db.Column(db.String())
+    due_date = db.Column(db.Date)
     notes = db.Column(db.String(10000))
+    completion_status = db.Column(db.Boolean, default=False)
     student = db.Column(db.Integer, db.ForeignKey('user.id'))
     
     def __repr__(self):

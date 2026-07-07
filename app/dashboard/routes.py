@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, render_template, flash, request
 from flask_login import login_required, current_user
 from app.models import Assignment
+import math
 import datetime
 from datetime import date
 from app import db
@@ -23,8 +24,7 @@ def dashboard():
         due_date = request.form.get("due_date")
         notes = request.form.get("notes")
         try:
-            due_date = datetime.datetime.strptime(due_date, "%Y-%m-%d")
-            due_date = due_date.strftime("%m/%d/%Y")
+            due_date = datetime.datetime.strptime(due_date, "%Y-%m-%d").date()
         except ValueError:
             flash("Invalid due date format. Please use mm/dd/yyyy.", category="error")
             return render_template("dashboard.html", user=current_user)
@@ -36,8 +36,13 @@ def dashboard():
         except Exception as e:
             flash(f"Error occurred while adding the assignment, please try again.", category="error")
             print(f"Error occurred while adding the assignment: {e}")
+    stats = {
+        "completed": sum(1 for assignment in current_user.assignments if assignment.completion_status),
+        "incomplete": sum(1 for assignment in current_user.assignments if not assignment.completion_status),
+        "rate": (sum(1 for assignment in current_user.assignments if assignment.completion_status) / len(current_user.assignments) * 100) if current_user.assignments else 0
+    }
 
-    return render_template("dashboard.html", user=current_user)
+    return render_template("dashboard.html", user=current_user, stats = stats)
 
 @views.route("/delete-assignment/<int:id>", methods=["POST"])
 @login_required
@@ -59,8 +64,7 @@ def edit_assignment(id):
     if request.method == "POST":
         due_date = request.form.get("due_date")
         try:
-            due_date = datetime.datetime.strptime(due_date, "%Y-%m-%d")
-            due_date = due_date.strftime("%m/%d/%Y")
+            due_date = datetime.datetime.strptime(due_date, "%Y-%m-%d").date()
         except ValueError:
             flash("Invalid due date format. Please use mm/dd/yyyy.", category="error")
             return render_template("edit.html", assignment=assignment, user=current_user)
@@ -68,6 +72,7 @@ def edit_assignment(id):
         assignment.course = request.form.get("course")
         assignment.priority = request.form.get("priority")
         assignment.notes = request.form.get("notes")
+        assignment.completion_status = request.form.get("completed") == "True"
         assignment.due_date = due_date
         try:
             db.session.commit()

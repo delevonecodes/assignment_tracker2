@@ -6,20 +6,32 @@
     <div align="center">
         <h1>Edit Assignment</h1>
         <form method="POST" action="/edit-assignment/{{ assignment.id }}">
-            <label for="name">Assignment:</label>
-            <input type="text" name="name" id="name" value="{{ assignment.name }}" placeholder="Example: Study for Final Exam" required><br>
-            <label for="course">Course:</label>
-            <input type="text" name="course" id="course" value="{{ assignment.course }}" required><br>
-            <label for="priority">Priority:</label>
-            <select name="priority" id="priority" required>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High" selected>High</option>
-            </select><br>
-            <label for="due_date">Due Date:</label>
-            <input type="date" name="due_date" id="due_date" value= "{{ assignment.due_date }}" required><br>
+            <div>
+                <label for="name">Assignment:</label>
+                <input type="text" name="name" id="name" value="{{ assignment.name }}" placeholder="Example: Study for Final Exam" required><br>
+                <label for="course">Course:</label>
+                <input type="text" name="course" id="course" value="{{ assignment.course }}" required>
+            </div>
+            <div>
+                <label for="priority">Priority:</label>
+                <select name="priority" id="priority" required>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High" selected>High</option>
+                </select><br>
+            </div>
+            <div>
+                <label for="due_date">Due Date:</label>
+                <input type="date" name="due_date" id="due_date" value= "{{ assignment.due_date }}" required><br>               
+            </div>            
+            <div>
+                <label for="complete">Completed: </label>
+                <input type="radio" name="completed" id="complete" value="True" {% if assignment.completion_status %}checked{% endif %}>
+                <label for="incomplete">Incomplete: </label>
+                <input type="radio" name="completed" id="incomplete" value="False" {% if not assignment.completion_status %}checked{% endif %}><br>
+            </div>
             <label for="notes">Notes (optional):</label>
-            <textarea name="notes" id="notes">{{ assignment.notes }}</textarea>
+            <textarea name="notes" id="notes">{{ assignment.notes }}</textarea><br>
             <div align="center">
                 <input type="submit" value="Update Assignment">
             </div>
