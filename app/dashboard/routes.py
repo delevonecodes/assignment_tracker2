@@ -17,6 +17,16 @@ def home():
 @views.route("/dashboard", methods=["GET", "POST"])
 @login_required
 def dashboard():
+    stats = {
+        "completed": sum(1 for assignment in current_user.assignments if assignment.completion_status),
+        "incomplete": sum(1 for assignment in current_user.assignments if not assignment.completion_status),
+        "rate": (sum(1 for assignment in current_user.assignments if assignment.completion_status) / len(current_user.assignments) * 100) if current_user.assignments else 0
+    }
+    return render_template("dashboard.html", user=current_user, stats = stats)
+
+@views.route("/assignments", methods = ["GET", "POST"])
+@login_required
+def assignments():
     if request.method == "POST":
         name = request.form.get("name")
         course = request.form.get("course")
@@ -36,13 +46,8 @@ def dashboard():
         except Exception as e:
             flash(f"Error occurred while adding the assignment, please try again.", category="error")
             print(f"Error occurred while adding the assignment: {e}")
-    stats = {
-        "completed": sum(1 for assignment in current_user.assignments if assignment.completion_status),
-        "incomplete": sum(1 for assignment in current_user.assignments if not assignment.completion_status),
-        "rate": (sum(1 for assignment in current_user.assignments if assignment.completion_status) / len(current_user.assignments) * 100) if current_user.assignments else 0
-    }
+    return render_template("assignments.html", user=current_user)
 
-    return render_template("dashboard.html", user=current_user, stats = stats)
 
 @views.route("/delete-assignment/<int:id>", methods=["POST"])
 @login_required
@@ -55,7 +60,7 @@ def delete_assignment(id):
     except Exception as e:
         flash(f"Error occurred while deleting the assignment, please try again.", category="error")
         print(f"Error occurred while deleting the assignment: {e}")
-    return redirect("/dashboard")
+    return redirect("/assignments")
 
 @views.route("/edit-assignment/<int:id>", methods=["GET", "POST"])
 @login_required
