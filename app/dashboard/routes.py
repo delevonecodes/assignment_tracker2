@@ -20,7 +20,8 @@ def dashboard():
     stats = {
         "completed": sum(1 for assignment in current_user.assignments if assignment.completion_status),
         "incomplete": sum(1 for assignment in current_user.assignments if not assignment.completion_status),
-        "rate": (sum(1 for assignment in current_user.assignments if assignment.completion_status) / len(current_user.assignments) * 100) if current_user.assignments else 0
+        "rate": (sum(1 for assignment in current_user.assignments if assignment.completion_status) / len(current_user.assignments) * 100) if current_user.assignments else 0,
+        "overdue": sum(1 for assignment in current_user.assignments if assignment.days_until_due() < 0)
     }
     return render_template("dashboard.html", user=current_user, stats = stats)
 

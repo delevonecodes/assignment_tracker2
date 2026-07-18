@@ -1,6 +1,6 @@
 from . import db
 from datetime import datetime, date
-from flask_login import UserMixin
+from flask_login import UserMixin # type: ignore
 #from sqlalchemy.sql import func
 
 class Assignment(db.Model):

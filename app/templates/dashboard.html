@@ -2,18 +2,20 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+
     <div align="center">
         <h1>Dashboard</h1>
         <p>Welcome {{ user.username }}!</p>
         <h2>This is the dashboard page for the Assignment Tracker</h2>
         <p>Here you can view your upcoming assignments and track your progress.</p>
     </div>
-    <div align = "center">
+    <div align = "left">
         <h3>Statistics</h3>
         <p>Total Assignments: {{ user.assignments|length }}</p>
         <p>Completed Assignments: {{ stats.completed }}</p>
         <p>Incomplete Assignments: {{ stats.incomplete }}</p>
         <P>Completion Rate: {{ "%.1f" | format(stats.rate) }}%</P>
+        <p>Overdue Assingments: {{ stats.overdue }}</p>
     </div>
     
 {% endblock %}
