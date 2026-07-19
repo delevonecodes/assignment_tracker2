@@ -5,21 +5,51 @@
     <div class="center">
         <h1>Assignments</h1>
         <p>Welcome {{ user.username }}!</p>
-        <h2>This is the assignments page for the Assignment Tracker</h2>
         <p>Here you can view, add, and edit your assignments.</p>
     </div>
     <div class="parent-assignment-container">
         <div class="assignments-container">
             <h3 class="center container-header">Your Assignments</h3>
-            <div>
+            <div class="assignments-taskbar">
+                <label for="search">Search: </label>
+                <input type="text" id="search" placeholder="E.g. calc hw">
+                <label for="sorting-method">Sort: </label>
+                <select id="sorting-method">
+                    <option selected>Default</option>
+                    <option>Due Date</option>
+                    <option>Name</option>
+                    <option>Course</option>
+                    <option>Priority</option>
+                    <option>Completed</option>
+                    <option>Incomplete</option>
+                </select>
+                <span>Show: </span>
+                <input type="radio" name="show" id="all">
+                <label for="all">All</label>
+                <input type="radio" name="show" id="incomplete">
+                <label for="all">Incomplete</label>
+                <input type="radio" name="show" id="complete">
+                <label for="all">Complete</label>
+            </div>
+            <div class="assignments-list">
                 {% if not user.assignments %}
                     <p>No assignments yet!</p>
                 {% endif %}
                 <ul id="assignments">
                     {% for assignment in user.assignments %}
-                    <li class="assignment">Name: {{ assignment.name }} | Course: {{ assignment.course }} | Priority: {{ assignment.priority }} | {{ assignment.due_label()}} | Notes: {{ assignment.notes }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
+                    {% if assignment.priority == "High" %}
+                    <li class="assignment high-priority">{{ assignment.name }} | {{ assignment.course }} | {{ assignment.priority }} Priority | {{ assignment.due_label()}} | Notes: {{ assignment.notes }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
                         <input type="button" value="Edit" onclick="window.location.href='/edit-assignment/{{ assignment.id }}'"><input type="submit" value="Delete">
                     </form></li>
+                    {% elif assignment.priority == "Medium" %}
+                    <li class="assignment medium-priority">{{ assignment.name }} | {{ assignment.course }} | {{ assignment.priority }} Priority | {{ assignment.due_label()}} | Notes: {{ assignment.notes }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
+                        <input type="button" value="Edit" onclick="window.location.href='/edit-assignment/{{ assignment.id }}'"><input type="submit" value="Delete">
+                    </form></li>
+                    {% else %}
+                    <li class="assignment low-priority">{{ assignment.name }} | {{ assignment.course }} | {{ assignment.priority }} Priority | {{ assignment.due_label()}} | Notes: {{ assignment.notes }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
+                        <input type="button" value="Edit" onclick="window.location.href='/edit-assignment/{{ assignment.id }}'"><input type="submit" value="Delete">
+                    </form></li>
+                    {% endif %}
                     {% endfor %}
                 </ul>
             </div>
