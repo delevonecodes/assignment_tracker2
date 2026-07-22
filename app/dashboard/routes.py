@@ -1,10 +1,10 @@
 from flask import Blueprint, redirect, render_template, flash, request
 from flask_login import login_required, current_user
 from app.models import Assignment
-import math
 import datetime
-from datetime import date
+from datetime import date, datetime
 from app import db
+import calendar
 
 views = Blueprint('views', __name__)
 
@@ -23,7 +23,20 @@ def dashboard():
         "rate": (sum(1 for assignment in current_user.assignments if assignment.completion_status) / len(current_user.assignments) * 100) if current_user.assignments else 0,
         "overdue": sum(1 for assignment in current_user.assignments if assignment.days_until_due() < 0)
     }
-    return render_template("dashboard.html", user=current_user, stats = stats)
+    today = int(datetime.now().strftime("%d"))
+
+    weeks = [[0, 0, 0, 1, 2, 3, 4], 
+             [5, 6, 7, 8, 9, 10, 11], 
+             [12, 13, 14, 15, 16, 17, 18], 
+             [19, 20, 21, 22, 23, 24, 25], 
+             [26, 27, 28, 29, 30, 31, 0]]
+    
+    try:
+        assignments = [(assignment.name, int(assignment.due_date.strftime("%d")), assignment.priority) for assignment in current_user.assignments]
+    except Exception:
+        assignments = "Error happened"
+    
+    return render_template("dashboard.html", user=current_user, stats = stats, today = today, current_month_calendar = weeks, assignments = assignments)
 
 @views.route("/assignments", methods = ["GET", "POST"])
 @login_required
@@ -35,7 +48,7 @@ def assignments():
         due_date = request.form.get("due_date")
         notes = request.form.get("notes")
         try:
-            due_date = datetime.datetime.strptime(due_date, "%Y-%m-%d").date()
+            due_date = datetime.strptime(due_date, "%Y-%m-%d").date()
         except ValueError:
             flash("Invalid due date format. Please use mm/dd/yyyy.", category="error")
             return render_template("dashboard.html", user=current_user)
@@ -70,7 +83,7 @@ def edit_assignment(id):
     if request.method == "POST":
         due_date = request.form.get("due_date")
         try:
-            due_date = datetime.datetime.strptime(due_date, "%Y-%m-%d").date()
+            due_date = datetime.strptime(due_date, "%Y-%m-%d").date()
         except ValueError:
             flash("Invalid due date format. Please use mm/dd/yyyy.", category="error")
             return render_template("edit.html", assignment=assignment, user=current_user)

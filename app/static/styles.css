@@ -6,6 +6,10 @@
 
 body {
     font-family: Arial, sans-serif;
+    background-color: grey;
+}
+
+.assignments-container,.new-assignment-container {
     background-color: #f4f4f4;
 }
 
@@ -110,4 +114,91 @@ body {
 
 .center {
     text-align: center;
+}
+
+#assignments {
+    list-style: none;
+}
+
+#calender {
+    margin: 5px auto;
+    width: 50vw;
+    height: auto;
+    max-height: 70vh;
+    overflow-y: auto;
+    background-color: #f4f4f4;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+#calender-grid {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#weekdays-header {
+    display:flex;
+    justify-content: space-around;
+}
+
+.calendar-day {
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid;
+    margin: 0;
+    aspect-ratio: 1 / 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.calendar-day ul {
+    list-style: none;
+    margin: 4px 0 0 0;
+    padding: 0;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-word;
+    font-size: 0.7rem;
+}
+
+#cal-header {
+    display: flex;
+    justify-content: space-around;
+}
+
+#cal-header span {
+    font-weight: bold;
+}
+
+.calendar-week {
+    display: flex;
+    width: 100%;
+}
+
+.no-day {
+    background-color: gray;
+}
+
+.current-day {
+    background-color: lightblue;
+}
+
+.month.center {
+    padding: 5px;
+}
+
+.red-text {
+    color: red;
+}
+
+.orange-text {
+    color: orange;
+}
+
+.green-text {
+    color: green;
 }

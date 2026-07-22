@@ -33,7 +33,7 @@ class Assignment(db.Model):
         elif days == 1:
             return "Due tomorrow"
         elif 1 < days <= 6:
-            return f"Due in {days}s"
+            return f"Due in {days} days"
         elif days ==7:
             return "Due in 1 week"
         else:

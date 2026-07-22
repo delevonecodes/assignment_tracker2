@@ -17,5 +17,61 @@
         <P>Completion Rate: {{ "%.1f" | format(stats.rate) }}%</P>
         <p>Overdue Assingments: {{ stats.overdue }}</p>
     </div>
+    <div align="left">
+        <h3>Upcoming Assignments</h3>
+        <p>Assignments go here</p>
+    </div>
+    <div id="calender">
+        <div class="month">
+            <h3 class="month center">July 2026</h3>
+            <div id="cal-header"><span>Sun</span><span>Mon</span><span >Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+            <div id="calender-grid">
+                {% for week in current_month_calendar %}
+                <div class="calendar-week">
+                    {% for day in week %}
+                    {% if day == 0 %}
+                    <div class="no-day calendar-day">&nbsp;</div>
+                    {% elif today == day %}
+                    <div class="calendar-day current-day">
+                        {{ day }}
+                        <ul>
+                            {% for assignment in assignments %}
+                            {% if assignment[1] == day %}
+                                {% if assignment[2] == "High" %}
+                                <li class="red-text">{{ assignment[0] }}</li>
+                                {% elif assignment[2] == "Medium" %}
+                                <li class="orange-text">{{ assignment[0] }}</li>
+                                {% else %}
+                                <li class="green-text">{{ assignment[0] }}</li>
+                                {% endif %}
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% else %}
+                    <div class="calendar-day">
+                        {{ day }}
+                        <ul>
+                            {% for assignment in assignments %}
+                            {% if assignment[1] == day %}
+                                {% if assignment[2] == "High" %}
+                                <li class="red-text">{{ assignment[0] }}</li>
+                                {% elif assignment[2] == "Medium" %}
+                                <li class="orange-text">{{ assignment[0] }}</li>
+                                {% else %}
+                                <li class="green-text">{{ assignment[0] }}</li>
+                                {% endif %}
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
     
 {% endblock %}
