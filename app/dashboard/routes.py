@@ -21,9 +21,10 @@ def dashboard():
         "completed": sum(1 for assignment in current_user.assignments if assignment.completion_status),
         "incomplete": sum(1 for assignment in current_user.assignments if not assignment.completion_status),
         "rate": (sum(1 for assignment in current_user.assignments if assignment.completion_status) / len(current_user.assignments) * 100) if current_user.assignments else 0,
-        "overdue": sum(1 for assignment in current_user.assignments if assignment.days_until_due() < 0)
+        "overdue": sum(1 for assignment in current_user.assignments if assignment.days_until_due() < 0 and not assignment.completion_status)
     }
     today = int(datetime.now().strftime("%d"))
+    upcoming_assignments = sorted([assignment for assignment in current_user.assignments if assignment.days_until_due() <= 7], key = lambda a: a.days_until_due())
 
     weeks = [[0, 0, 0, 1, 2, 3, 4], 
              [5, 6, 7, 8, 9, 10, 11], 
@@ -36,7 +37,7 @@ def dashboard():
     except Exception:
         assignments = "Error happened"
     
-    return render_template("dashboard.html", user=current_user, stats = stats, today = today, current_month_calendar = weeks, assignments = assignments)
+    return render_template("dashboard.html", user=current_user, stats = stats, today = today, current_month_calendar = weeks, assignments = assignments, upcoming_assignments = upcoming_assignments)
 
 @views.route("/assignments", methods = ["GET", "POST"])
 @login_required
@@ -49,7 +50,7 @@ def assignments():
         notes = request.form.get("notes")
         try:
             due_date = datetime.strptime(due_date, "%Y-%m-%d").date()
-        except ValueError:
+        except Exception:
             flash("Invalid due date format. Please use mm/dd/yyyy.", category="error")
             return render_template("dashboard.html", user=current_user)
         try:
@@ -57,7 +58,7 @@ def assignments():
             db.session.add(new_assignment)
             db.session.commit()
             flash("Assignment added!", category="success")
-        except Exception as e:
+        except ValueError as e:
             flash(f"Error occurred while adding the assignment, please try again.", category="error")
             print(f"Error occurred while adding the assignment: {e}")
     return render_template("assignments.html", user=current_user)

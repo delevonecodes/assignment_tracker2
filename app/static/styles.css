@@ -202,3 +202,15 @@ body {
 .green-text {
     color: green;
 }
+
+.progress-container {
+    height: 20px;
+    width: 60px;
+    background-color: black;
+}
+
+.progress {
+    height: 100%;
+    margin: 0;
+    
+}

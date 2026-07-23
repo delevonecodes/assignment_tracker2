@@ -16,10 +16,16 @@
         <p>Incomplete Assignments: {{ stats.incomplete }}</p>
         <P>Completion Rate: {{ "%.1f" | format(stats.rate) }}%</P>
         <p>Overdue Assingments: {{ stats.overdue }}</p>
+        <div class="progress-container"><div class="progress"></div></div>
     </div>
     <div align="left">
         <h3>Upcoming Assignments</h3>
-        <p>Assignments go here</p>
+        <ul>
+        {% for assignment in upcoming_assignments %}
+        <li>{{ assignment.name + " " +assignment.due_label() }}</li>
+        {% endfor %}
+        </ul>
+        
     </div>
     <div id="calender">
         <div class="month">
