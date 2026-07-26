@@ -29,10 +29,10 @@
     </div>
     <div id="calender">
         <div class="month">
-            <h3 class="month center">July 2026</h3>
+            <h3 class="month center">{{ current_month_calendar[1] }}</h3>
             <div id="cal-header"><span>Sun</span><span>Mon</span><span >Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
             <div id="calender-grid">
-                {% for week in current_month_calendar %}
+                {% for week in current_month_calendar[0] %}
                 <div class="calendar-week">
                     {% for day in week %}
                     {% if day == 0 %}

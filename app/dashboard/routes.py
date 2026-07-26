@@ -4,7 +4,7 @@ from app.models import Assignment
 import datetime
 from datetime import date, datetime
 from app import db
-import calendar
+from app.cal import get_month_info
 
 views = Blueprint('views', __name__)
 
@@ -26,18 +26,14 @@ def dashboard():
     today = int(datetime.now().strftime("%d"))
     upcoming_assignments = sorted([assignment for assignment in current_user.assignments if assignment.days_until_due() <= 7], key = lambda a: a.days_until_due())
 
-    weeks = [[0, 0, 0, 1, 2, 3, 4], 
-             [5, 6, 7, 8, 9, 10, 11], 
-             [12, 13, 14, 15, 16, 17, 18], 
-             [19, 20, 21, 22, 23, 24, 25], 
-             [26, 27, 28, 29, 30, 31, 0]]
+    month_info = get_month_info()
     
     try:
         assignments = [(assignment.name, int(assignment.due_date.strftime("%d")), assignment.priority) for assignment in current_user.assignments]
     except Exception:
         assignments = "Error happened"
     
-    return render_template("dashboard.html", user=current_user, stats = stats, today = today, current_month_calendar = weeks, assignments = assignments, upcoming_assignments = upcoming_assignments)
+    return render_template("dashboard.html", user=current_user, stats = stats, today = today, current_month_calendar = month_info, assignments = assignments, upcoming_assignments = upcoming_assignments)
 
 @views.route("/assignments", methods = ["GET", "POST"])
 @login_required
