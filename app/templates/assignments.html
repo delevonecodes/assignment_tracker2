@@ -10,26 +10,27 @@
     <div class="parent-assignment-container">
         <div class="assignments-container">
             <h3 class="center container-header">Your Assignments</h3>
-            <form class="assignments-taskbar" method="POST">
+            <form id="assignments-taskbar" method="GET">
                 <label for="search">Search: </label>
-                <input type="text" id="search" placeholder="E.g. calc hw">
+                <input type="text" id="search" name="search" placeholder="E.g. calc hw" value="{{ request.args.get('search', '') }}">
                 <label for="sorting-method">Sort: </label>
-                <select id="sorting-method">
-                    <option selected>Default</option>
-                    <option>Due Date</option>
-                    <option>Name</option>
-                    <option>Course</option>
-                    <option>Priority</option>
-                    <option>Completed</option>
-                    <option>Incomplete</option>
+                <select id="sorting-method" name="sorting-method">
+                    <option value="Default" {% if request.args.get('sorting-method', 'Default') == 'Default' %}selected{% endif %}>Default</option>
+                    <option value="Due Date" {% if request.args.get('sorting-method') == 'Due Date' %}selected{% endif %}>Due Date</option>
+                    <option value="Name" {% if request.args.get('sorting-method') == 'Name' %}selected{% endif %}>Name</option>
+                    <option value="Course" {% if request.args.get('sorting-method') == 'Course' %}selected{% endif %}>Course</option>
+                    <option value="Priority" {% if request.args.get('sorting-method') == 'Priority' %}selected{% endif %}>Priority</option>
+                    <option value="Completed" {% if request.args.get('sorting-method') == 'Completed' %}selected{% endif %}>Completed</option>
+                    <option value="Incomplete" {% if request.args.get('sorting-method') == 'Incomplete' %}selected{% endif %}>Incomplete</option>
                 </select>
+                <button type="submit">Apply</button>
             </form>
             <div class="assignments-list">
                 {% if not user.assignments %}
                     <p>No assignments yet!</p>
                 {% endif %}
                 <ul id="assignments">
-                    {% for assignment in user.assignments %}
+                    {% for assignment in assignments %}
                     {% if assignment.priority == "High" %}
                     <li class="assignment high-priority">{{ assignment.name }} | {{ assignment.course }} | {{ assignment.priority }} Priority | {{ assignment.due_label()}} | Notes: {{ assignment.notes }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
                         <input type="button" value="Edit" onclick="window.location.href='/edit-assignment/{{ assignment.id }}'"><input type="submit" value="Delete">

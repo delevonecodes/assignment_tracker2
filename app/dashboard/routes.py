@@ -57,7 +57,40 @@ def assignments():
         except ValueError as e:
             flash(f"Error occurred while adding the assignment, please try again.", category="error")
             print(f"Error occurred while adding the assignment: {e}")
-    return render_template("assignments.html", user=current_user)
+
+    search_query = request.args.get("search", "").strip()
+    sort_by = request.args.get("sorting-method", "Default")
+
+    query = Assignment.query.filter_by(student=current_user.id)
+
+    if search_query:
+        query = query.filter(Assignment.name.ilike(f"%{search_query}%"))
+
+    if sort_by == "Due Date":
+        query = query.order_by(Assignment.due_date)
+    elif sort_by == "Name":
+        query = query.order_by(Assignment.name)
+    elif sort_by == "Course":
+        query = query.order_by(Assignment.course)
+    elif sort_by == "Priority":
+        from sqlalchemy import case
+        priority_order = case(
+            (Assignment.priority == "High", 1),
+            (Assignment.priority == "Medium", 2),
+            (Assignment.priority == "Low", 3),
+            else_=4
+        )
+        query = query.order_by(priority_order)
+    elif sort_by == "Completed":
+        query = query.filter(Assignment.completion_status.is_(True))
+    elif sort_by == "Incomplete":
+        query = query.filter(Assignment.completion_status.is_(False))
+
+    assignments = query.all()
+    print(assignments)
+
+
+    return render_template("assignments.html", user=current_user, assignments = assignments)
 
 
 @views.route("/delete-assignment/<int:id>", methods=["POST"])

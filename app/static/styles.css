@@ -55,9 +55,10 @@ body {
     margin: 0 auto;
 }
 
-.assignments-taskbar {
+#assignments-taskbar {
     padding: 3px 0;
     display: inline;
+    width: 100%;
     border-bottom: 2px solid black;
 }
 
