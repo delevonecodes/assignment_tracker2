@@ -2,82 +2,120 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-
-    <div align="center">
+    <nav class="navbar">
+        <span id="stracker">Stracker</span>
+        {% if user.is_authenticated %}
+        <a class = "navigation-link" href="/">Home</a>
+        <a class = "navigation-link current" href="/dashboard">Dashboard</a>
+        <a class = "navigation-link" href="/assignments">Assignments</a>
+        <a class = "navigation-link" href="/auth/logout">Log out</a>
+        {% else %}
+        <a class = "navigation-link" href="/">Home</a>
+        <a class = "navigation-link" href="/auth/login">Login</a>
+        <a class = "navigation-link" href="/auth/sign-up">Sign-Up</a>
+        {% endif %}
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    {% if category == 'error' %}
+        <div class="alert" role="alert">
+            {{ message }}
+        </div>
+    {% elif category == 'success' %}
+        <div class="alert" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <header>
         <h1>Dashboard</h1>
-        <p>Welcome {{ user.username }}!</p>
-        <h2>This is the dashboard page for the Assignment Tracker</h2>
-        <p>Here you can view your upcoming assignments and track your progress.</p>
-    </div>
-    <div align = "left">
-        <h3>Statistics</h3>
-        <p>Total Assignments: {{ user.assignments|length }}</p>
-        <p>Completed Assignments: {{ stats.completed }}</p>
-        <p>Incomplete Assignments: {{ stats.incomplete }}</p>
-        <P>Completion Rate: {{ "%.1f" | format(stats.rate) }}%</P>
-        <p>Overdue Assingments: {{ stats.overdue }}</p>
-        <div class="progress-container"><div class="progress"></div></div>
-    </div>
-    <div align="left">
-        <h3>Upcoming Assignments</h3>
-        <ul>
-        {% for assignment in upcoming_assignments %}
-        <li>{{ assignment.name + " " +assignment.due_label() }}</li>
-        {% endfor %}
-        </ul>
-        
-    </div>
-    <div id="calender">
-        <div class="month">
-            <h3 class="month center">{{ current_month_calendar[1] }}</h3>
-            <div id="cal-header"><span>Sun</span><span>Mon</span><span >Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
-            <div id="calender-grid">
-                {% for week in current_month_calendar[0] %}
-                <div class="calendar-week">
-                    {% for day in week %}
-                    {% if day == 0 %}
-                    <div class="no-day calendar-day">&nbsp;</div>
-                    {% elif today == day %}
-                    <div class="calendar-day current-day">
-                        {{ day }}
-                        <ul>
-                            {% for assignment in assignments %}
-                            {% if assignment[1] == day %}
-                                {% if assignment[2] == "High" %}
-                                <li class="red-text">{{ assignment[0] }}</li>
-                                {% elif assignment[2] == "Medium" %}
-                                <li class="orange-text">{{ assignment[0] }}</li>
-                                {% else %}
-                                <li class="green-text">{{ assignment[0] }}</li>
-                                {% endif %}
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% else %}
-                    <div class="calendar-day">
-                        {{ day }}
-                        <ul>
-                            {% for assignment in assignments %}
-                            {% if assignment[1] == day %}
-                                {% if assignment[2] == "High" %}
-                                <li class="red-text">{{ assignment[0] }}</li>
-                                {% elif assignment[2] == "Medium" %}
-                                <li class="orange-text">{{ assignment[0] }}</li>
-                                {% else %}
-                                <li class="green-text">{{ assignment[0] }}</li>
-                                {% endif %}
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </div>
+        <p>Welcome {{ user.username }}! Here you can view your upcoming assignments and track your progress.</p>
+    </header>
+    <div id="dashboard">
+        <div id="statistics">
+            <div class="statistics-container box-shadow">
+                <h3 class="container-header">Statistics</h3>
+                <p>Total Assignments: {{ user.assignments|length }}</p>
+                <p>Completed Assignments: {{ stats.completed }}</p>
+                <p>Incomplete Assignments: {{ stats.incomplete }}</p>
+                <P>Completion Rate: {{ "%.1f" | format(stats.rate) }}%</P>
+                <p>Overdue Assingments: {{ stats.overdue }}</p>
+            </div>
+            <div class="statistics-container box-shadow">
+                <h3 class="container-header">Upcoming Assignments</h3>
+                <div id="upcoming-assignments">
+                    <ul>
+                    {% for assignment in upcoming_assignments %}
+                    {% if assignment.priority == "High" %}
+                        <li class="mini-assignment red-text">{{ assignment.name + " " +assignment.due_label() }}</li>
+                    {% elif assignment.priority == "Medium" %}
+                        <li class="mini-assignment orange-text">{{ assignment.name + " " +assignment.due_label() }}</li>
+                    {% elif assignment.priority == "Low" %}
+                        <li class="mini-assignment green-text">{{ assignment.name + " " +assignment.due_label() }}</li>
                     {% endif %}
                     {% endfor %}
+                    </ul>
                 </div>
-                {% endfor %}
+            </div>
+        </div>
+        <div id="calender" class="box-shadow">
+            <div class="month">
+                <div id="calendar-header">
+                    <h3 class="month center">{{ current_month_calendar[1] }}</h3>
+                    <div id="cal-header"><span>Sun</span><span>Mon</span><span >Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+                </div>
+                <div id="calender-grid">
+                    {% for week in current_month_calendar[0] %}
+                    <div class="calendar-week">
+                        {% for day in week %}
+                        {% if day == 0 %}
+                        <div class="no-day calendar-day">&nbsp;</div>
+                        {% elif today == day %}
+                        <div class="calendar-day current-day">
+                            {{ day }}
+                            <ul>
+                                {% for assignment in assignments %}
+                                {% if assignment[1] == day %}
+                                    {% if assignment[2] == "High" %}
+                                    <li class="red-text">{{ assignment[0] }}</li>
+                                    {% elif assignment[2] == "Medium" %}
+                                    <li class="orange-text">{{ assignment[0] }}</li>
+                                    {% else %}
+                                    <li class="green-text">{{ assignment[0] }}</li>
+                                    {% endif %}
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% else %}
+                        <div class="calendar-day">
+                            {{ day }}
+                            <ul>
+                                {% for assignment in assignments %}
+                                {% if assignment[1] == day %}
+                                    {% if assignment[2] == "High" %}
+                                    <li class="red-text">{{ assignment[0] }}</li>
+                                    {% elif assignment[2] == "Medium" %}
+                                    <li class="orange-text">{{ assignment[0] }}</li>
+                                    {% else %}
+                                    <li class="green-text">{{ assignment[0] }}</li>
+                                    {% endif %}
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
+    
 
     
 {% endblock %}

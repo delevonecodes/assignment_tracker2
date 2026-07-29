@@ -6,7 +6,24 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: grey;
+    background-color: rgb(216, 212, 206);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#stracker {
+    margin-right: auto;
+    margin-left: 10px;
+    font-weight: bold;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.alert {
+    background-color: #22302A;
+    flex: 0 0 auto;
 }
 
 .assignments-container,.new-assignment-container {
@@ -16,7 +33,7 @@ body {
 .navigation-link {
     text-decoration: none;
     margin: 10px;
-    color: white;
+    color: rgba(180, 180, 180);
     transition: all 0.3s ease;
     font-weight: bold;
 }
@@ -25,29 +42,107 @@ body {
     color: darkorange;
 }
 
+.current {
+    border-bottom: 2px solid darkorange;
+    color: white;
+}
+
 .navbar {
     display: flex;
     width: 100vw;
     height: 5vh;
-    background-color: #333;
+    background-color: #22302A;
     justify-content: end;
+    align-items: center;
+    border-bottom: 1px solid gray;
+    flex: 0 0 auto;
+}
+
+header {
+    width: 100vw;
+    background-color: #22302A;
+    flex: 0 0 auto;
+}
+
+header h1 {
+    padding-top: 35px;
+    padding-bottom: 5px;
+    color: white;
+    margin-left: 10px;
+}
+
+header p {
+    padding-bottom: 25px;
+    color: rgba(180, 180, 180);
+    margin-left: 10px;
+}
+
+#new-assignment-container {
+    background-color: #F5F6F1;
+    border: 1px solid gray;
+    border-radius: 7px;
+    width: 30%;
+    height: 40vh;
+    padding: 0 0;
+    margin: 0 auto;
+}
+
+#assignment-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.new-assignment-container {
-    border: 2px solid black;
-    border-radius: 7px;
-    width: 30%;
-    height: 100%;
-    padding: 0 0;
-    margin: 0 auto;
+#assignment-form label{
+    text-align: left;
+    width: 90%;
+    padding: 2px;
+}
+
+#notes {
+    width: 90%;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    border-bottom: 1px solid gray;
+}
+
+.assignment-input {
+    width: 90%;
+    height: 30px;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    border-bottom: 1px solid gray;
+}
+
+.assignment-input:focus {
+    border-bottom: 2px solid #22302A; 
+}
+
+#add-assignment {
+    background-color: #22302A;
+    color: white;
+    width: 90%;
+    height: 40px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid white;
+    font-size: .8rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+#add-assignment:hover, #submit-sort:hover {
+    background-color: #0e3827;
 }
 
 .assignments-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 2px solid black;
+    border: 1px solid gray;
     border-radius: 7px;
     width: 60%;
     height: 100%;
@@ -55,9 +150,25 @@ body {
     margin: 0 auto;
 }
 
+#submit-sort {
+    background-color: #22302A;
+    color: white;
+    width: 20%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid white;
+    font-size: .8rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+
 #assignments-taskbar {
-    padding: 3px 0;
+    padding: 10px 5px;
     display: inline;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     width: 100%;
     border-bottom: 2px solid black;
 }
@@ -86,12 +197,20 @@ body {
 }
 
 .assignment{
+    list-style: none;
     border-radius: 5px;
     font-weight: bold;
     width: 80%;
     transition: all 0.3s ease;
     margin: 0 auto;
-    background-color: burlywood;
+    background-color: #FFFFFF;
+}
+
+.mini-assignment {
+    list-style-type: disc;
+    font-weight: bold;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .assignment:hover {
@@ -101,15 +220,15 @@ body {
 .container-header {
     width: 100%;
     margin-top: 0;
-    padding: 3px 0;
-    background-color: #333;
+    padding: 5px;
+    background-color: #22302A;
     color: white;
 }
 
 .parent-assignment-container {
     display: flex;
     width: 100vw;
-    height: 50vh;
+    height: 70vh;
     margin: 10px auto;
 }
 
@@ -121,21 +240,104 @@ body {
     list-style: none;
 }
 
-#calender {
-    margin: 5px auto;
-    width: 50vw;
-    height: auto;
-    max-height: 70vh;
+#dashboard {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    gap: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#dashboard > div:first-child {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 26%;
+    min-height: 0;
+    gap: 15px;
+}
+
+.month.center {
+    padding: 5px;
+}
+
+#calendar-header {
+    background-color: #22302A;
+    color: white;
+    padding: 10px;
+    flex: 0 0 auto;
+}
+
+.calendar-day ul {
+    margin: 4px 0 0 0;
+    padding: 0;
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-word;
+    font-size: 0.7rem;
+    list-style-position: inside;
+}
+
+#cal-header {
+    display: flex;
+    justify-content: space-around;
+    flex: 1;
+}
+
+#cal-header span {
+    font-weight: bold;
+}
+
+#calender {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    width: auto;
+    max-width: none;
+    margin: 20px;
     background-color: #f4f4f4;
-    border: 2px solid black;
     border-radius: 5px;
+    overflow: hidden;
+}
+
+.month {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
 }
 
 #calender-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: 1fr;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.calendar-week {
+    display: contents;
+}
+
+.calendar-day,
+.calendar-day.no-day,
+.calendar-day.current-day {
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid;
+    margin: 0;
+    min-width: 0;
+    min-height: 0;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    overflow: hidden;
 }
 
 #weekdays-header {
@@ -143,41 +345,41 @@ body {
     justify-content: space-around;
 }
 
-.calendar-day {
-    box-sizing: border-box;
-    padding: 5px;
-    border: 1px solid;
-    margin: 0;
-    aspect-ratio: 1 / 1;
-    flex: 1;
+.box-shadow {
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.statistics-container {
+    background-color: #F5F6F1;
+    border: 1px solid gray;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    flex: 1;
+    min-height: 0;
     overflow: hidden;
 }
 
-.calendar-day ul {
-    list-style: none;
-    margin: 4px 0 0 0;
-    padding: 0;
-    flex: 1;
+.statistics-container:last-child {
+    margin-bottom: 200px;
+}
+
+#upcoming-assignments {
+    flex: 1.4; 
+    min-height: 0;
     overflow-y: auto;
-    overflow-x: hidden;
-    word-break: break-word;
-    font-size: 0.7rem;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: #F5F6F1;
+    border: 1px solid gray;
+    border-radius: 5px;
 }
 
-#cal-header {
-    display: flex;
-    justify-content: space-around;
-}
-
-#cal-header span {
-    font-weight: bold;
-}
-
-.calendar-week {
-    display: flex;
-    width: 100%;
+#upcoming-assignments ul {
+    margin: 0;
+    padding: 0;
+    list-style-position: inside;
 }
 
 .no-day {
@@ -186,10 +388,6 @@ body {
 
 .current-day {
     background-color: lightblue;
-}
-
-.month.center {
-    padding: 5px;
 }
 
 .red-text {
@@ -204,14 +402,6 @@ body {
     color: green;
 }
 
-.progress-container {
-    height: 20px;
-    width: 60px;
-    background-color: black;
-}
-
-.progress {
-    height: 100%;
-    margin: 0;
-    
+#statistics {
+    padding: 10px;
 }
