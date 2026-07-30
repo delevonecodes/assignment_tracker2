@@ -4,18 +4,22 @@
     box-sizing: border-box;
 }
 
-html {
-    height: 100%;
-    overflow: auto;
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
 }
+
 
 body {
     font-family: Arial, sans-serif;
     background-color: rgb(216, 212, 206);
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    overflow: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     transform-origin: top center;
 }
 
@@ -35,6 +39,10 @@ body {
     flex: 0 0 auto;
     padding: 10px 15px;
     font-size: 0.85rem;
+}
+
+main {
+    flex: 1;
 }
 
 .error {
@@ -158,7 +166,6 @@ body {
 
 .navbar {
     display: flex;
-    width: 100vw;
     height: 5vh;
     background-color: #22302A;
     justify-content: end;
@@ -167,8 +174,13 @@ body {
     flex: 0 0 auto;
 }
 
+.navbar,
+header,
+.home-footer {
+    width: 100%;
+}
+
 header {
-    width: 100vw;
     background-color: #22302A;
     flex: 0 0 auto;
 }
@@ -407,11 +419,6 @@ header p {
     background-color: #10B981; 
 }
 
-.assignment:hover {
-    transform: translateY(-2px);
-    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.12);
-}
-
 .assignment-main {
     flex: 1;
     min-width: 0;
@@ -574,6 +581,7 @@ header p {
 
 .assignment:hover {
     transform: scale(1.05);
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.12);
 }
 
 .container-header {
@@ -798,4 +806,168 @@ header p {
 .box p {
     font-size: 0.8rem;
     font-weight: bold;
+}
+
+.home-content {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 20px 10px;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+}
+
+.home-cta-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 34px;
+}
+
+.home-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.home-btn-primary {
+    background-color: #22302A;
+    color: white;
+}
+
+.home-btn-primary:hover {
+    background-color: #0e3827;
+}
+
+.home-btn-secondary {
+    background-color: white;
+    color: #22302A;
+    border: 1.5px solid #22302A;
+}
+
+.home-btn-secondary:hover {
+    background-color: #22302A;
+    color: white;
+}
+
+.home-features {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 34px;
+}
+
+.home-feature-card {
+    background-color: #F5F6F1;
+    border: 1px solid gray;
+    border-radius: 7px;
+    padding: 22px;
+    width: 260px;
+    box-sizing: border-box;
+}
+
+.home-swatches {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.home-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+.home-swatch-high { background-color: #FF2C2C; }
+.home-swatch-medium { background-color: #FF991C; }
+.home-swatch-low { background-color: #10B981; }
+
+.home-feature-title {
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: #22302A;
+    margin-bottom: 8px;
+}
+
+.home-feature-desc {
+    font-size: 0.88rem;
+    color: rgb(90, 90, 90);
+    line-height: 1.5;
+}
+
+.home-preview {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.home-preview-list {
+    list-style: none;
+    padding: 14px;
+    margin: 0;
+}
+
+.home-preview-empty {
+    padding: 20px;
+    text-align: center;
+    color: rgb(110, 110, 110);
+    font-size: 0.9rem;
+}
+
+.home-footer {
+    margin-top: auto;
+    background-color: #22302A;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 18px 24px;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    border-top: 1px solid gray;
+}
+
+.home-tech-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.home-badge {
+    font-size: 0.75rem;
+    color: rgba(180, 180, 180);
+    border: 1px solid rgba(180, 180, 180, 0.5);
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+.home-footer-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.home-credit {
+    font-size: 0.8rem;
+    color: rgba(180, 180, 180);
+}
+
+.home-github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.stat {
+    font-weight: bold;
+    color: black;
 }

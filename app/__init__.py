@@ -14,12 +14,12 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
     db.init_app(app)
 
+
     from app.auth.routes import auth
     from app.dashboard.routes import views
 
     app.register_blueprint(auth, url_prefix="/auth")
     app.register_blueprint(views, url_prefix="/")
-
 
     from .models import User, Assignment
 
@@ -34,6 +34,7 @@ def create_app():
     if not path.exists('app/' + "database.db"):
         with app.app_context():
             db.create_all()
+            
         print('Created Database!')
 
     return app

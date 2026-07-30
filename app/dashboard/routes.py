@@ -1,8 +1,8 @@
 from flask import Blueprint, redirect, render_template, flash, request
 from flask_login import login_required, current_user
-from app.models import Assignment
+from app.models import Assignment, User
 import datetime
-from datetime import date, datetime
+from datetime import datetime
 from app import db
 from app.cal import get_month_info
 
@@ -10,9 +10,13 @@ views = Blueprint('views', __name__)
 
 @views.route("/")
 def home():
-    return render_template("home.html", user=current_user)
-
-
+    real_user_stats = {
+            "total_users": User.query.count(),
+            "total_assignments": Assignment.query.count(),
+            "completed_assignments": Assignment.query.filter_by(completion_status=True).count(),
+        }
+    
+    return render_template("home.html", user=current_user, real_user_stats=real_user_stats)
 
 @views.route("/dashboard", methods=["GET", "POST"])
 @login_required
@@ -87,8 +91,6 @@ def assignments():
         query = query.filter(Assignment.completion_status.is_(False))
 
     assignments = query.all()
-    print(assignments)
-
 
     return render_template("assignments.html", user=current_user, assignments = assignments)
 
