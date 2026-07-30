@@ -4,7 +4,7 @@ Stracker is a full-stack assignment management web application built with Flask 
 
 ## Live Demo
 
-Coming Soon
+https://stracker-oxu6.onrender.com/
 
 ## Screenshots
 
@@ -62,17 +62,32 @@ Coming Soon
 ```
 assignment_tracker2/
 │
-├── website/
-│   ├── auth.py
-│   ├── dashboard.py
-│   ├── models.py
+├── app/
 │   ├── __init__.py
-│   ├── templates/
-│   └── static/
+│   ├── auth/
+│   │   └── routes.py
+│   ├── dashboard/
+│   │   └── routes.py
+│   ├── cal.py
+│   ├── models.py
+│   ├── static/
+│   │   ├── favicon.svg
+│   │   └── styles.css
+│   └── templates/
+│       ├── assignments.html
+│       ├── dashboard.html
+│       ├── edit.html
+│       ├── home.html
+│       ├── index.html
+│       ├── login.html
+│       └── sign_up.html
 │
 ├── instance/
-├── requirements.txt
+├── config.py
 ├── main.py
+├── render.yaml
+├── requirements.txt
+├── reset.py
 └── README.md
 ```
 
