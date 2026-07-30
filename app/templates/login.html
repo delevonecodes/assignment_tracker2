@@ -3,12 +3,33 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <h1 allign="center">Login</h1>
-    <form method="POST">
-        <label for="name">Email\Username:</label>
-        <input type="text" id="name" name="name" placeholder="username/email@email.com" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="password" required><br><br>
-        <input type="submit" value="Login">
-    </form>
+    <nav class="navbar">
+        <span id="stracker">Stracker</span>
+        {% if user.is_authenticated %}
+        <a class = "navigation-link" href="/">Home</a>
+        <a class = "navigation-link" href="/dashboard">Dashboard</a>
+        <a class = "navigation-link" href="/assignments">Assignments</a>
+        <a class = "navigation-link" href="/auth/logout">Log out</a>
+        {% else %}
+        <a class = "navigation-link" href="/">Home</a>
+        <a class = "navigation-link current" href="/auth/login">Login</a>
+        <a class = "navigation-link" href="/auth/sign-up">Sign-Up</a>
+        {% endif %}
+    </nav>
+    <div id="auth-wrapper">
+        <div class="auth-container box-shadow">
+            <h3 class="center container-header">Login</h3>
+            <form method="POST" class="auth-form">
+                <div class="form-group">
+                    <label for="name">Email / Username</label>
+                    <input type="text" class="assignment-input" id="name" name="name" placeholder="username/email@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="assignment-input" id="password" name="password" placeholder="password" required>
+                </div>
+                <input class="auth-submit" type="submit" value="Login">
+            </form>
+        </div>
+    </div>
 {% endblock %}

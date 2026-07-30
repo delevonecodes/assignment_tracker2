@@ -69,8 +69,6 @@ def sign_up():
                 elif not char.isalnum():
                     total[3] += 1
             return all(value > 0 for value in total)
-                
-
 
         if user_by_email:
             flash("Email already exists.", category="error")
@@ -88,7 +86,7 @@ def sign_up():
             user = User(email=email, username=username, password=generate_password_hash(password))
             db.session.add(user)
             db.session.commit()
-            flash("Account created!", category="success")
+            flash("Account created Successfully!", category="success")
             login_user(user, remember=True)
             return redirect(url_for("views.home"))
 

@@ -55,44 +55,65 @@
             <div class="assignments-list">
                 {% if not user.assignments %}
                     <p>No assignments yet!</p>
+                    <p>Click "Add Assignment" to track your first assignment!</p>
                 {% endif %}
                 <ul id="assignments">
-                    {% for assignment in assignments %}
-                    {% if assignment.priority == "High" %}
-                    <li class="assignment high-priority">{{ assignment.name }} | {{ assignment.course }} | {{ assignment.priority }} Priority | {{ assignment.due_label()}} | Notes: {{ assignment.notes }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
-                        <input type="button" value="Edit" onclick="window.location.href='/edit-assignment/{{ assignment.id }}'"><input type="submit" value="Delete">
-                    </form></li>
-                    {% elif assignment.priority == "Medium" %}
-                    <li class="assignment medium-priority">{{ assignment.name }} | {{ assignment.course }} | {{ assignment.priority }} Priority | {{ assignment.due_label()}} | Notes: {{ assignment.notes }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
-                        <input type="button" value="Edit" onclick="window.location.href='/edit-assignment/{{ assignment.id }}'"><input type="submit" value="Delete">
-                    </form></li>
-                    {% else %}
-                    <li class="assignment low-priority">{{ assignment.name }} | {{ assignment.course }} | {{ assignment.priority }} Priority | {{ assignment.due_label()}} | Notes: {{ assignment.notes }}<form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
-                        <input type="button" value="Edit" onclick="window.location.href='/edit-assignment/{{ assignment.id }}'"><input type="submit" value="Delete">
-                    </form></li>
-                    {% endif %}
-                    {% endfor %}
+                {% for assignment in assignments %}
+                    <li class="assignment priority-{{ assignment.priority|lower }}">
+                        <div class="assignment-main">
+                            <div class="assignment-header">
+                                <span class="assignment-name">{{ assignment.name }}</span>
+                                <span class="assignment-course">{{ assignment.course }}</span>
+                            </div>
+                            <div class="assignment-meta">
+                                <span class="priority-badge priority-{{ assignment.priority|lower }}">{{ assignment.priority }} Priority</span>
+                                <span class="assignment-due">{{ assignment.due_label() }}</span>
+                            </div>
+                            {% if assignment.notes %}
+                            <p class="assignment-notes">{{ assignment.notes }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="assignment-actions">
+                            <input type="button" class="btn btn-edit" value="Edit" onclick="window.location.href='/edit-assignment/{{ assignment.id }}'">
+                            <form method="POST" action="/delete-assignment/{{ assignment.id }}" style="display: inline;">
+                                <input type="submit" class="btn btn-delete" value="Delete">
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
                 </ul>
             </div>
         </div>
         <div id="new-assignment-container" class="box-shadow">
             <h3 class="center container-header">New Assignment</h3>
             <form method="POST" id="assignment-form">
-                <label for="name">Assignment:</label>
-                <input type="text" class="assignment-input" name="name" id="name" placeholder="Example: Study for Final Exam" required><br>
-                <label for="course">Course:</label>
-                <input type="text" class="assignment-input" name="course" id="course" placeholder="Example: Math 101" required><br>
-                <label for="priority">Priority:</label>
-                <select name="priority" class="assignment-input" id="priority" required>
-                    <option value="High">High</option>
-                    <option value="Medium" selected>Medium</option>
-                    <option value="Low">Low</option>
-                </select><br>
-                <label for="due_date">Due Date:</label>
-                <input type="date" class="assignment-input" name="due_date" id="due_date" required><br>
-                <label for="notes">Notes (optional):</label>
-                <textarea name="notes" id="notes" rows = "3" placeholder="Example: Review chapters 1-5"></textarea><br>
-                <input id="add-assignment"type="submit" value="Add Assignment">
+                <div class="form-group">
+                    <label for="name">Assignment</label>
+                    <input type="text" class="assignment-input" name="name" id="name" placeholder="Example: Study for Final Exam" maxlength="30" required>
+                </div>
+                <div class="form-group">
+                    <label for="course">Course</label>
+                    <input type="text" class="assignment-input" name="course" id="course" placeholder="Example: Math 101" maxlength="30" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="priority">Priority</label>
+                        <select name="priority" class="assignment-input" id="priority" required>
+                            <option value="High">High</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="due_date">Due Date</label>
+                        <input type="date" class="assignment-input" name="due_date" id="due_date" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes (optional)</label>
+                    <textarea name="notes" id="notes" rows="3" maxlength="1000" placeholder="Example: Review chapters 1-5"></textarea>
+                </div>
+                <input id="add-assignment" type="submit" value="Add Assignment">
             </form>
         </div>
     </div>

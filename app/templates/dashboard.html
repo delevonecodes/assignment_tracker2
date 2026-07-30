@@ -35,26 +35,27 @@
         <p>Welcome {{ user.username }}! Here you can view your upcoming assignments and track your progress.</p>
     </header>
     <div id="dashboard">
-        <div id="statistics">
+        <div id="side-bars">
             <div class="statistics-container box-shadow">
                 <h3 class="container-header">Statistics</h3>
-                <p>Total Assignments: {{ user.assignments|length }}</p>
-                <p>Completed Assignments: {{ stats.completed }}</p>
-                <p>Incomplete Assignments: {{ stats.incomplete }}</p>
-                <P>Completion Rate: {{ "%.1f" | format(stats.rate) }}%</P>
-                <p>Overdue Assingments: {{ stats.overdue }}</p>
+                <div id="statistics">
+                    <div class="box box-shadow"><h2 class="center red-text">{{ stats.incomplete }}</h2><p class="center gray-text">INCOMPLETE</p></div>
+                    <div class="box box-shadow"><h2 class="center red-text">{{ stats.overdue }}</h2><p class="center gray-text">OVERDUE</p></div>
+                    <div class="box box-shadow"><h2 class="center">{{ stats.rate }}%</h2><p class="center gray-text">COMPLETION RATE</p></div>
+                    <div class="box box-shadow"><h2 class="center">{{ user.assignments|length }}</h2><p class="center gray-text">TOTAL ASSIGNMENTS</p></div>
+                </div>
             </div>
             <div class="statistics-container box-shadow">
                 <h3 class="container-header">Upcoming Assignments</h3>
                 <div id="upcoming-assignments">
                     <ul>
                     {% for assignment in upcoming_assignments %}
-                    {% if assignment.priority == "High" %}
-                        <li class="mini-assignment red-text">{{ assignment.name + " " +assignment.due_label() }}</li>
-                    {% elif assignment.priority == "Medium" %}
-                        <li class="mini-assignment orange-text">{{ assignment.name + " " +assignment.due_label() }}</li>
-                    {% elif assignment.priority == "Low" %}
-                        <li class="mini-assignment green-text">{{ assignment.name + " " +assignment.due_label() }}</li>
+                    {% if assignment.priority == "High" and not assignment.completion_status %}
+                        <li class="mini-assignment"><span class="red-text">{{ assignment.name + " "}}</span><span>{{assignment.due_label()}}</span></li>
+                    {% elif assignment.priority == "Medium" and not assignment.completion_status %}
+                        <li class="mini-assignment"><span class="orange-text">{{ assignment.name + " " }}</span><span>{{assignment.due_label()}}</span></li>
+                    {% elif assignment.priority == "Low" and not assignment.completion_status %}
+                        <li class="mini-assignment"><span class="green-text">{{ assignment.name + " " }}</span><span>{{assignment.due_label()}}</span></li>
                     {% endif %}
                     {% endfor %}
                     </ul>

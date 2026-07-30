@@ -5,14 +5,26 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-        <title>{% block title %}Assignment Tracker{% endblock %}</title>
+        <link rel="icon" type="image/svg+xml" href="\favicon.svg">
+        <title>{% block title %}Stracker{% endblock %}</title>
+        <script>
+            (function () {
+            let scale = 1;
+            const MIN = 0.6, MAX = 2.5, STEP = 0.001;
+
+            window.addEventListener('wheel', function (e) {
+                if (!e.ctrlKey) return;
+                e.preventDefault();
+                scale += -e.deltaY * STEP;
+                scale = Math.min(MAX, Math.max(MIN, scale));
+                document.body.style.transform = `scale(${scale})`;
+            }, { passive: false });
+            })();
+        </script>
+        
     </head>
-    <body>        
-        {% block content %}
-        <h1>Assignment Tracker</h1>
-        <p>Welcome to the Assignment Tracker!</p>
-        <h2>This is the landing page for the Assignment Tracker</h2>
-        {% endblock %}
+    <body>
+        {% block content %}{% endblock %}    
     </body>
 </html>
 

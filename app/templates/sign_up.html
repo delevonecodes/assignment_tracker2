@@ -10,39 +10,45 @@
         <a class = "navigation-link" href="/assignments">Assignments</a>
         <a class = "navigation-link" href="/auth/logout">Log out</a>
         {% else %}
-        <a class = "navigation-link" href="/">Home</a>
         <a class = "navigation-link" href="/auth/login">Login</a>
-        <a class = "navigation-link" href="/auth/sign-up">Sign-Up</a>
+        <a class = "navigation-link current" href="/auth/sign-up">Sign-Up</a>
         {% endif %}
     </nav>
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}
     {% if category == 'error' %}
-        <div class="alert" role="alert">
-            {{ message }}
-        </div>
+        <div class="error" role="alert">{{ message }}</div>
     {% elif category == 'success' %}
-        <div class="alert" role="alert">
-            {{ message }}
-        </div>
+        <div class="alert" role="alert">{{ message }}</div>
     {% endif %}
     {% endfor %}
     {% endif %}
     {% endwith %}
-    <h1>Sign Up Page</h1>
-    <p>Welcome to the Sign Up Page!</p>
-    <form method ="POST">
-        <h3 align="center">Sign Up</h3>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="example@example.com" required><br><br>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" placeholder="username"required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="password" required><br><br>
-        <label for="confirm password">Password (Confirm):</label>
-        <input type="password" id="confirm_password" name="password2" placeholder="confirm password" required><br><br>
-        <p>Password must be at least 8 characters long, include one special character, and one number.</p>
-        <input type="submit" value="Sign Up">
-    </form>
+    <div id="auth-wrapper">
+        <div class="auth-container box-shadow">
+            <h3 class="center container-header">Sign Up</h3>
+            <p class="auth-subtitle">Welcome to the Sign Up Page!</p>
+            <form method="POST" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="assignment-input" id="email" name="email" placeholder="example@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="assignment-input" id="username" name="username" placeholder="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="assignment-input" id="password" name="password" placeholder="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Password (Confirm)</label>
+                    <input type="password" class="assignment-input" id="confirm_password" name="password2" placeholder="confirm password" required>
+                </div>
+                <p class="auth-hint">Password must be between 8 and 128 characters long, contain upper and lowercase letters, at least one number, and at least one special character.</p>
+                <input class="auth-submit" type="submit" value="Sign Up">
+            </form>
+        </div>
+    </div>
 {% endblock %}

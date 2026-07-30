@@ -7,9 +7,9 @@ class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150))
     course = db.Column(db.String(150))
-    priority = db.Column(db.String(150))
+    priority = db.Column(db.String(10))
     due_date = db.Column(db.Date)
-    notes = db.Column(db.String(10000))
+    notes = db.Column(db.String(1000))
     completion_status = db.Column(db.Boolean, default=False)
     student = db.Column(db.Integer, db.ForeignKey('user.id'))
     
@@ -24,7 +24,9 @@ class Assignment(db.Model):
 
     def due_label(self):
         days = self.days_until_due()
-        if days < -1:
+        if self.completion_status:
+            return "Completed"
+        elif days < -1:
             return f"Overdue by {abs(days)}d"
         elif days == -1:
             return f"Due yesterday"

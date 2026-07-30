@@ -1,40 +1,66 @@
 {% extends "index.html" %}
 
-{% block title %}Edit Note{% endblock %}
+{% block title %}Edit Assignment{% endblock %}
 
 {% block content %}
-    <div align="center">
-        <h1>Edit Assignment</h1>
-        <form method="POST" action="/edit-assignment/{{ assignment.id }}">
-            <div>
-                <label for="name">Assignment:</label>
-                <input type="text" name="name" id="name" value="{{ assignment.name }}" placeholder="Example: Study for Final Exam" required><br>
-                <label for="course">Course:</label>
-                <input type="text" name="course" id="course" value="{{ assignment.course }}" required>
-            </div>
-            <div>
-                <label for="priority">Priority:</label>
-                <select name="priority" id="priority" required>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High" selected>High</option>
-                </select><br>
-            </div>
-            <div>
-                <label for="due_date">Due Date:</label>
-                <input type="date" name="due_date" id="due_date" value= "{{ assignment.due_date }}" required><br>               
-            </div>            
-            <div>
-                <label for="complete">Completed: </label>
-                <input type="radio" name="completed" id="complete" value="True" {% if assignment.completion_status %}checked{% endif %}>
-                <label for="incomplete">Incomplete: </label>
-                <input type="radio" name="completed" id="incomplete" value="False" {% if not assignment.completion_status %}checked{% endif %}><br>
-            </div>
-            <label for="notes">Notes (optional):</label>
-            <textarea name="notes" id="notes">{{ assignment.notes }}</textarea><br>
-            <div align="center">
-                <input type="submit" value="Update Assignment">
-            </div>
-        </form>
+    <nav class="navbar">
+        <span id="stracker">Stracker</span>
+        {% if user.is_authenticated %}
+        <a class = "navigation-link" href="/">Home</a>
+        <a class = "navigation-link" href="/dashboard">Dashboard</a>
+        <a class = "navigation-link current" href="/assignments">Assignments</a>
+        <a class = "navigation-link" href="/auth/logout">Log out</a>
+        {% else %}
+        <a class = "navigation-link" href="/">Home</a>
+        <a class = "navigation-link" href="/auth/login">Login</a>
+        <a class = "navigation-link" href="/auth/sign-up">Sign-Up</a>
+        {% endif %}
+    </nav>
+    <div id="edit-assignment-wrapper">
+        <div id="edit-assignment-container" class="box-shadow">
+            <h3 class="center container-header">Edit Assignment</h3>
+            <form method="POST" action="/edit-assignment/{{ assignment.id }}" id="edit-assignment-form">
+                <div class="form-group">
+                    <label for="name">Assignment</label>
+                    <input type="text" class="assignment-input" name="name" id="name" value="{{ assignment.name }}" placeholder="Example: Study for Final Exam" required>
+                </div>
+                <div class="form-group">
+                    <label for="course">Course</label>
+                    <input type="text" class="assignment-input" name="course" id="course" value="{{ assignment.course }}" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="priority">Priority</label>
+                        <select name="priority" class="assignment-input" id="priority" required>
+                            <option value="Low" {% if assignment.priority == "Low" %}selected{% endif %}>Low</option>
+                            <option value="Medium" {% if assignment.priority == "Medium" %}selected{% endif %}>Medium</option>
+                            <option value="High" {% if assignment.priority == "High" %}selected{% endif %}>High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="due_date">Due Date</label>
+                        <input type="date" class="assignment-input" name="due_date" id="due_date" value="{{ assignment.due_date }}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <div class="status-toggle">
+                        <label class="radio-option" for="complete">
+                            <input type="radio" name="completed" id="complete" value="True" {% if assignment.completion_status %}checked{% endif %}>
+                            Completed
+                        </label>
+                        <label class="radio-option" for="incomplete">
+                            <input type="radio" name="completed" id="incomplete" value="False" {% if not assignment.completion_status %}checked{% endif %}>
+                            Incomplete
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes (optional)</label>
+                    <textarea name="notes" id="notes">{{ assignment.notes }}</textarea>
+                </div>
+                <input id="update-assignment" type="submit" value="Update Assignment">
+            </form>
+        </div>
     </div>
 {% endblock %}
