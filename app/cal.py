@@ -6,7 +6,7 @@ def get_month_info():
     current_year = today.strftime("%Y")
     current_month = today.strftime("%m") if today.strftime("%m")[0] != "0" else today.strftime("%m")[1:]
     cal = calendar.Calendar(6)
-    info = [[],[],[],[],[],]
+    info = [[],[],[],[],[],[]]
     week = 0
     for i in cal.itermonthdays(int(current_year), int(current_month)):
         if len(info[week]) < 7:
