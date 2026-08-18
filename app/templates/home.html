@@ -54,6 +54,10 @@
 
             <div class="home-features">
                 <div class="home-feature-card">
+                    <p class="home-feature-title">Built-in calendar</p>
+                    <p class="home-feature-desc">A month view lays out every due date at a glance, right alongside your dashboard.</p>
+                </div>
+                <div class="home-feature-card">
                     <div class="home-swatches">
                         <span class="home-swatch home-swatch-high"></span>
                         <span class="home-swatch home-swatch-medium"></span>
@@ -63,20 +67,59 @@
                     <p class="home-feature-desc">Every assignment gets a High, Medium, or Low priority, so the ones that matter most are never buried.</p>
                 </div>
                 <div class="home-feature-card">
-                    <p class="home-feature-title">Built-in calendar</p>
-                    <p class="home-feature-desc">A month view lays out every due date at a glance, right alongside your dashboard.</p>
-                </div>
-                <div class="home-feature-card">
-                    <p class="home-feature-title">Real-time progress stats</p>
-                    <p class="home-feature-desc">Track your completion rate, overdue count, and total assignments as you work.</p>
-                </div>
-                <div class="home-feature-card">
                     <p class="home-feature-title">Live Stats</p>
                     <p class="home-feature-desc">Trusted by <span class="stat">{{ real_user_stats.total_users }}+</span> students</p>
                     <p class="home-feature-desc">Managing <span class="stat">{{ real_user_stats.total_assignments }}+</span> assignments</p>
                     <p class="home-feature-desc">Helping complete <span class="stat">{{ real_user_stats.completed_assignments }}+</span> assignments</p>
                 </div>
+                <div class="home-feature-card">
+                    <p class="home-feature-title">Real-time progress stats</p>
+                    <p class="home-feature-desc">Track your completion rate, overdue count, and total assignments as you work.</p>
+                </div>
             </div>
+
+            <section class="info-section">
+                <div class="section-header-row">
+                    <h3>Keep your coursework under control</h3>
+                </div>
+                <div class="how-it-works-grid">
+                    <div class="home-feature-card step-card">
+                        <span class="step-number">1</span>
+                        <h4>Add assignment</h4>
+                        <p>Log each class task, project, or reading with the details you need in one place.</p>
+                    </div>
+                    <div class="home-feature-card step-card">
+                        <span class="step-number">2</span>
+                        <h4>Set priority</h4>
+                        <p>Mark it High, Medium, or Low so the most urgent work stays visible and actionable.</p>
+                    </div>
+                    <div class="home-feature-card step-card">
+                        <span class="step-number">3</span>
+                        <h4>Track due dates</h4>
+                        <p>Watch your dashboard and calendar update as deadlines approach so you can plan ahead.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-section">
+                <div class="section-header-row">
+                    <h3>Build a calmer, smarter routine</h3>
+                </div>
+                <div class="benefits-list">
+                    <div class="home-feature-card benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <p>Fewer missed deadlines</p>
+                    </div>
+                    <div class="home-feature-card benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <p>Less scramble before exams</p>
+                    </div>
+                    <div class="home-feature-card benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <p>Cleaner planning across your classes</p>
+                    </div>
+                </div>
+            </section>
 
             {% if user.is_authenticated %}
             {% set upcoming = (user.assignments | rejectattr('completion_status') | sort(attribute='due_date') | list)[:3] %}

@@ -13,15 +13,15 @@ body {
 
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     background-color: rgb(216, 212, 206);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    height: 100vh;
-    max-height: 100vh;
-    overflow: hidden;
+    height: auto;
+    max-height: none;
     overflow-x: hidden;
+    overflow-y: auto;
     transform-origin: top center;
 }
 
@@ -46,9 +46,9 @@ body {
 main {
     flex: 1 1 auto;
     min-height: 0;
-    height: 100%;
-    max-height: 100%;
-    overflow: hidden;
+    height: auto;
+    max-height: none;
+    overflow: visible;
 }
 
 .error {
@@ -789,7 +789,7 @@ header p {
 }
 
 .statistics-container:last-child {
-    margin-bottom: 200px;
+    margin-bottom: 0;
 }
 
 #upcoming-assignments {
@@ -913,48 +913,54 @@ header p {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
-    padding: 30px 20px 10px;
+    padding: 30px 20px 0;
     box-sizing: border-box;
     flex: 0 0 auto;
 }
 
 .home-cta-row {
     display: flex;
-    gap: 14px;
+    gap: 16px;
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 34px;
+    padding: 10px 0;
 }
 
 .home-btn {
     display: inline-block;
-    padding: 12px 28px;
-    border-radius: 6px;
+    padding: 14px 30px;
+    border-radius: 8px;
     font-size: 0.95rem;
     font-weight: bold;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 18px rgba(34, 48, 42, 0.12);
+}
+
+.home-btn:hover {
+    transform: translateY(-1px);
 }
 
 .home-btn-primary {
-    background-color: #22302A;
+    background: linear-gradient(180deg, #22302A 0%, #1b2b26 100%);
     color: white;
 }
 
 .home-btn-primary:hover {
-    background-color: #0e3827;
+    background: linear-gradient(180deg, #1b2b26 0%, #15231d 100%);
 }
 
 .home-btn-secondary {
-    background-color: white;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f7f5 100%);
     color: #22302A;
-    border: 1.5px solid #22302A;
+    border: 1.5px solid rgba(34, 48, 42, 0.35);
 }
 
 .home-btn-secondary:hover {
-    background-color: #22302A;
+    background: linear-gradient(180deg, #22302A 0%, #1b2b26 100%);
     color: white;
 }
 
@@ -967,24 +973,32 @@ header p {
 }
 
 .home-feature-card {
-    background-color: #F5F6F1;
-    border: 1px solid gray;
-    border-radius: 7px;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f7f5 100%);
+    border: 1px solid rgba(34, 48, 42, 0.18);
+    border-radius: 10px;
     padding: 22px;
     width: 260px;
     box-sizing: border-box;
+    box-shadow: 0 3px 10px rgba(34, 48, 42, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home-feature-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(34, 48, 42, 0.1);
 }
 
 .home-swatches {
     display: flex;
     gap: 6px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
 .home-swatch {
     width: 14px;
     height: 14px;
     border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
 .home-swatch-high { background-color: #FF2C2C; }
@@ -995,24 +1009,33 @@ header p {
     font-size: 1.05rem;
     font-weight: bold;
     color: #22302A;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
 }
 
 .home-feature-desc {
     font-size: 0.88rem;
     color: rgb(90, 90, 90);
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .home-preview {
     max-width: 700px;
     margin: 0 auto;
+    background: linear-gradient(180deg, #f8f8f5 0%, #eef1ee 100%);
+    border: 1px solid rgba(34, 48, 42, 0.18);
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(34, 48, 42, 0.06);
+    overflow: hidden;
 }
 
 .home-preview-list {
     list-style: none;
     padding: 14px;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .home-preview-empty {
@@ -1020,11 +1043,129 @@ header p {
     text-align: center;
     color: rgb(110, 110, 110);
     font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.info-section {
+    margin: 0 auto 34px;
+    max-width: 820px;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f7f5 100%);
+    border: 1px solid rgba(34, 48, 42, 0.18);
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(34, 48, 42, 0.08);
+    padding: 22px 20px 18px;
+}
+
+.section-header-row {
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.section-kicker {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #22302A;
+    background: rgba(34, 48, 42, 0.08);
+    border-radius: 999px;
+    padding: 6px 10px;
+    margin-bottom: 10px;
+}
+
+.section-header-row h3 {
+    color: #22302A;
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    margin: 0;
+}
+
+.how-it-works-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.step-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    min-height: 200px;
+    width: 260px;
+    padding: 22px;
+    margin: 0 auto;
+}
+
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #22302A 0%, #1b2b26 100%);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.step-card h4 {
+    color: #22302A;
+    font-size: 1.05rem;
+    margin: 0 0 10px;
+}
+
+.step-card p {
+    color: rgb(90, 90, 90);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.benefits-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 220px;
+    min-height: 92px;
+    margin: 0 auto;
+    padding: 14px 16px;
+}
+
+.benefit-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.12);
+    color: #10B981;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.benefit-item p {
+    margin: 0;
+    color: #22302A;
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: left;
 }
 
 .home-footer {
-    margin-top: auto;
-    background-color: #22302A;
+    margin-top: 40px;
+    background: linear-gradient(180deg, #22302A 0%, #1b2b26 100%);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1033,7 +1174,7 @@ header p {
     padding: 18px 24px;
     box-sizing: border-box;
     flex: 0 0 auto;
-    border-top: 1px solid gray;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .home-tech-badges {
@@ -1045,7 +1186,8 @@ header p {
 .home-badge {
     font-size: 0.75rem;
     color: rgba(180, 180, 180);
-    border: 1px solid rgba(180, 180, 180, 0.5);
+    border: 1px solid rgba(180, 180, 180, 0.45);
+    background: rgba(255, 255, 255, 0.03);
     padding: 4px 10px;
     border-radius: 12px;
 }
@@ -1066,9 +1208,15 @@ header p {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    color: rgba(180, 180, 180);
+    transition: color 0.2s ease;
+}
+
+.home-github-link:hover {
+    color: #ffffff;
 }
 
 .stat {
     font-weight: bold;
-    color: black;
+    color: #22302A;
 }
