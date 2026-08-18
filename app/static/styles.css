@@ -18,7 +18,9 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow-y: auto;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
     overflow-x: hidden;
     transform-origin: top center;
 }
@@ -42,7 +44,11 @@ body {
 }
 
 main {
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
 }
 
 .error {
@@ -199,35 +205,40 @@ header p {
 }
 
 #new-assignment-container {
-    background-color: #F5F6F1;
-    border: 1px solid gray;
+    background: linear-gradient(180deg, #f8f8f5 0%, #eef1ee 100%);
+    border: 1px solid rgba(34, 48, 42, 0.18);
     border-radius: 10px;
     width: 32%;
-    height: 60%;
+    height: 100%;
     padding: 0;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(34, 48, 42, 0.06);
 }
 
 #assignment-form {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    overflow-y: auto;
+    padding: 15px 0 20px;
+    min-height: 0;
+    overflow: hidden;
+    width: 100%;
 }
 
 #notes {
     width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
     padding: 8px;
     border: 1px solid #d8d8d8;
     border-radius: 5px;
     font-size: 0.85rem;
     font-family: Arial, sans-serif;
-    resize: vertical;
+    resize: none;
     background-color: white;
 }
 
@@ -241,16 +252,22 @@ header p {
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
+    flex: 0 0 auto;
 }
 
 .form-row {
     width: 90%;
     display: flex;
     gap: 10px;
+    flex: 0 0 auto;
+    min-width: 0;
 }
 
 .form-row .form-group {
     width: 100%;
+    min-width: 0;
+    margin-bottom: 0;
+    flex: 1 1 0;
 }
 
 #assignment-form label {
@@ -263,6 +280,7 @@ header p {
 
 .assignment-input {
     width: 100%;
+    min-width: 0;
     height: 34px;
     padding: 0 8px;
     border: 1px solid #d8d8d8;
@@ -280,11 +298,11 @@ header p {
     background-color: #22302A;
     color: white;
     width: 90%;
-    height: 42px;
-    margin-top: 10px;
+    height: 54px;
+    margin-top: auto;
     border-radius: 6px;
     border: none;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -298,12 +316,15 @@ header p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid gray;
-    border-radius: 7px;
+    background: linear-gradient(180deg, #f8f8f5 0%, #eef1ee 100%);
+    border: 1px solid rgba(34, 48, 42, 0.18);
+    border-radius: 10px;
     width: 60%;
     height: 100%;
-    padding: 0 0;
+    padding: 0;
     margin: 0 auto;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(34, 48, 42, 0.06);
 }
 
 #submit-sort {
@@ -324,8 +345,9 @@ header p {
     align-items: center;
     gap: 12px;
     width: 100%;
-    background-color: #F5F6F1;
-    border-bottom: 1px solid gray;
+    background: linear-gradient(180deg, #f8f8f5 0%, #eef1ee 100%);
+    border-bottom: 1px solid rgba(34, 48, 42, 0.18);
+    flex: 0 0 auto;
 }
 
 #assignments-taskbar label {
@@ -381,8 +403,9 @@ header p {
 
 .assignments-list {
     width: 100%;
-    height: 100%;
-    overflow-y: scroll;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -597,17 +620,28 @@ header p {
     width: 100vw;
     height: 70vh;
     margin: 10px auto;
+    gap: 15px;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .center {
     text-align: center;
 }
 
+#no-upcoming {
+    font-size: 0.9rem;
+    color: rgb(90, 90, 90);
+    margin-top: 10px;
+}
+
 #dashboard {
     display: flex;
     flex-direction: row;
-    flex: 1;
+    flex: 1 1 auto;
     min-height: 0;
+    height: 100%;
+    max-height: 100%;
     overflow: hidden;
     gap: 15px;
     padding: 10px;
@@ -627,20 +661,25 @@ header p {
 }
 
 #calendar-header {
-    background-color: #22302A;
+    background: linear-gradient(180deg, #22302A 0%, #1d2a25 100%);
     color: white;
     padding: 10px;
     flex: 0 0 auto;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .calendar-day ul {
     margin: 4px 0 0 0;
     padding: 0;
-    flex: 1;
+    flex: 1 1 auto;
     min-height: 0;
+    max-height: calc(100% - 1.25rem);
     overflow-y: auto;
     overflow-x: hidden;
+    overflow-wrap: anywhere;
     word-break: break-word;
+    white-space: normal;
     font-size: 0.7rem;
     list-style-position: inside;
 }
@@ -663,9 +702,11 @@ header p {
     width: auto;
     max-width: none;
     margin: 20px;
-    background-color: #f4f4f4;
-    border-radius: 5px;
+    background: linear-gradient(180deg, #f8f8f5 0%, #eef1ee 100%);
+    border: 1px solid rgba(34, 48, 42, 0.18);
+    border-radius: 10px;
     overflow: hidden;
+    box-shadow: 0 3px 10px rgba(34, 48, 42, 0.06);
 }
 
 .month {
@@ -678,11 +719,14 @@ header p {
 
 #calender-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-auto-rows: 1fr;
-    flex: 1;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+    width: 100%;
+    height: 100%;
     min-height: 0;
     overflow: hidden;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .calendar-week {
@@ -694,13 +738,31 @@ header p {
 .calendar-day.current-day {
     box-sizing: border-box;
     padding: 5px;
-    border: 1px solid;
+    border: 1px solid rgba(34, 48, 42, 0.14);
+    background: rgba(255, 255, 255, 0.25);
     margin: 0;
     min-width: 0;
     min-height: 0;
+    height: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    transition: filter 0.25s ease, background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.calendar-day:hover {
+    filter: brightness(0.88);
+    box-shadow: inset 0 0 0 1px rgba(34, 48, 42, 0.08);
+}
+
+.calendar-day.current-day:hover {
+    filter: brightness(0.82);
+    box-shadow: inset 0 0 0 1px rgba(34, 48, 42, 0.12);
+}
+
+.calendar-day.no-day:hover {
+    filter: brightness(0.78);
+    box-shadow: inset 0 0 0 1px rgba(34, 48, 42, 0.12);
 }
 
 #weekdays-header {
@@ -713,15 +775,17 @@ header p {
 }
 
 .statistics-container {
-    background-color: #F5F6F1;
-    border: 1px solid gray;
-    border-radius: 5px;
+    background: linear-gradient(180deg, #f8f8f5 0%, #eef1ee 100%);
+    border: 1px solid rgba(34, 48, 42, 0.18);
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    flex: 1;
+    flex: 0 0 45%;
     min-height: 0;
+    height: 45%;
     overflow: hidden;
+    box-shadow: 0 3px 10px rgba(34, 48, 42, 0.06);
 }
 
 .statistics-container:last-child {
@@ -729,14 +793,16 @@ header p {
 }
 
 #upcoming-assignments {
-    flex: 1.4; 
-    min-height: 0;
+    flex: 1 1 auto;
+    min-height: 180px;
+    height: 100%;
     overflow-y: auto;
     padding: 5px;
     box-sizing: border-box;
-    background-color: #F5F6F1;
-    border: 1px solid gray;
-    border-radius: 5px;
+    background: linear-gradient(180deg, #f8f8f5 0%, #eef1ee 100%);
+    border: 1px solid rgba(34, 48, 42, 0.18);
+    border-radius: 10px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 #upcoming-assignments ul {
@@ -745,12 +811,15 @@ header p {
     list-style-position: inside;
 }
 
-.no-day {
-    background-color: gray;
+.calendar-day.no-day {
+    background-color: #c4c7c5;
+    border: 1px solid rgba(34, 48, 42, 0.12);
 }
 
-.current-day {
-    background-color: lightblue;
+.calendar-day.current-day {
+    background: linear-gradient(180deg, #dfeaf8 0%, #cfe2f5 100%);
+    border: 1px solid rgba(34, 48, 42, 0.28);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
 }
 
 .red-text {
@@ -771,41 +840,73 @@ header p {
 
 #side-bars {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
 }
 
 #statistics {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
     width: 100%;
-    height: 100%;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-content: space-evenly;
+    flex: 1 1 auto;
+    min-height: 0;
     padding: 10px;
+    box-sizing: border-box;
+    gap: 10px;
+    overflow: hidden;
 }
 
 .box {
     color: #000;
-    background-color: white;
-    border: 1px solid #000;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f7f5 100%);
+    border: 1px solid rgba(34, 48, 42, 0.18);
+    box-shadow: 0 3px 10px rgba(34, 48, 42, 0.08);
     display: flex;
-    flex: 1 0 150px;
     flex-direction: column;
     align-items: center;
-    border-radius: 7px;
+    justify-content: center;
+    border-radius: 10px;
     order: 0;
-    padding: 10px;
-    margin: 0 5px;
+    padding: 10px 8px;
+    margin: 0;
+    min-width: 0;
+    min-height: 90px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    word-break: break-word;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.box:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(34, 48, 42, 0.12);
 }
 
 .box h2 {
     font-weight: bold;
-    font-size: 2.5rem;
-    padding: 5px;
+    font-size: clamp(1.4rem, 2.2vw, 2.8rem);
+    line-height: 1.08;
+    padding: 5px 0;
+    margin: 0;
+    max-width: 100%;
+    color: #22302A;
+    letter-spacing: -0.04em;
 }
 
 .box p {
-    font-size: 0.8rem;
+    font-size: clamp(0.62rem, 0.9vw, 0.82rem);
+    line-height: 1.2;
     font-weight: bold;
+    margin: 0;
+    max-width: 100%;
+    color: #4d5853;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .home-content {

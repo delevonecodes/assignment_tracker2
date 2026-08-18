@@ -49,15 +49,19 @@
                 <h3 class="container-header">Upcoming Assignments</h3>
                 <div id="upcoming-assignments">
                     <ul>
-                    {% for assignment in upcoming_assignments %}
-                    {% if assignment.priority == "High" and not assignment.completion_status %}
-                        <li class="mini-assignment"><span class="red-text">{{ assignment.name + " "}}</span><span>{{assignment.due_label()}}</span></li>
-                    {% elif assignment.priority == "Medium" and not assignment.completion_status %}
-                        <li class="mini-assignment"><span class="orange-text">{{ assignment.name + " " }}</span><span>{{assignment.due_label()}}</span></li>
-                    {% elif assignment.priority == "Low" and not assignment.completion_status %}
-                        <li class="mini-assignment"><span class="green-text">{{ assignment.name + " " }}</span><span>{{assignment.due_label()}}</span></li>
+                    {% if upcoming_assignments %}
+                        {% for assignment in upcoming_assignments %}
+                        {% if assignment.priority == "High" and not assignment.completion_status %}
+                            <li class="mini-assignment"><span class="red-text">{{ assignment.name + " "}}</span><span>{{assignment.due_label()}}</span></li>
+                        {% elif assignment.priority == "Medium" and not assignment.completion_status %}
+                            <li class="mini-assignment"><span class="orange-text">{{ assignment.name + " " }}</span><span>{{assignment.due_label()}}</span></li>
+                        {% elif assignment.priority == "Low" and not assignment.completion_status %}
+                            <li class="mini-assignment"><span class="green-text">{{ assignment.name + " " }}</span><span>{{assignment.due_label()}}</span></li>
+                        {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p id = "no-upcoming" class="center">No upcoming assignments!</p>
                     {% endif %}
-                    {% endfor %}
                     </ul>
                 </div>
             </div>
