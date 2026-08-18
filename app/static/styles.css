@@ -172,12 +172,15 @@ main {
 
 .navbar {
     display: flex;
-    height: 5vh;
+    min-height: 5vh;
     background-color: #22302A;
     justify-content: end;
     align-items: center;
     border-bottom: 1px solid gray;
     flex: 0 0 auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .navbar,
@@ -223,7 +226,7 @@ header p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 15px 0 20px;
+    padding: 10px 0 15px;
     min-height: 0;
     overflow: hidden;
     width: 100%;
@@ -251,7 +254,7 @@ header p {
     width: 90%;
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     flex: 0 0 auto;
 }
 
@@ -298,7 +301,7 @@ header p {
     background-color: #22302A;
     color: white;
     width: 90%;
-    height: 54px;
+    height: 36px;
     margin-top: auto;
     border-radius: 6px;
     border: none;
@@ -984,7 +987,7 @@ header p {
 }
 
 .home-feature-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.05);
     box-shadow: 0 8px 20px rgba(34, 48, 42, 0.1);
 }
 
@@ -1059,6 +1062,7 @@ header p {
 .section-header-row {
     margin-bottom: 18px;
     text-align: center;
+
 }
 
 .section-kicker {
