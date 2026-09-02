@@ -1,5 +1,6 @@
 from . import db
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
+import secrets
 from flask_login import UserMixin # type: ignore
 
 class Assignment(db.Model):
@@ -46,3 +47,30 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(1000))
     assignments = db.relationship("Assignment")
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(150), unique=True)
+    username = db.Column(db.String(150), unique=True)
+    password = db.Column(db.String(1000))
+    discord_id = db.Column(db.String(32), unique=True, nullable=True)
+    assignments = db.relationship("Assignment")
+
+
+class LinkCode(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(8), unique=True, nullable=False)
+    discord_id = db.Column(db.String(32), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    expires_at = db.Column(db.DateTime, nullable=False)
+
+    @staticmethod
+    def generate_code():
+        return secrets.token_hex(3).upper()  # e.g. "A1B2C3"
+
+    @staticmethod
+    def new_expiry(minutes=10):
+        return datetime.utcnow() + timedelta(minutes=minutes)
+
+    def is_expired(self):
+        return datetime.utcnow() > self.expires_at
