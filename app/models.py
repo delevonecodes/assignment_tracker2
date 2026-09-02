@@ -46,13 +46,6 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), unique=True)
     username = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(1000))
-    assignments = db.relationship("Assignment")
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(150), unique=True)
-    username = db.Column(db.String(150), unique=True)
-    password = db.Column(db.String(1000))
     discord_id = db.Column(db.String(32), unique=True, nullable=True)
     assignments = db.relationship("Assignment")
 

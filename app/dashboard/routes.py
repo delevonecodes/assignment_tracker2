@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, flash, request
 from flask_login import login_required, current_user
-from app.models import Assignment, User
+from app.models import Assignment, User, LinkCode
 import datetime
 from datetime import datetime
 from app import db
@@ -93,6 +93,31 @@ def assignments():
     assignments = query.all()
 
     return render_template("assignments.html", user=current_user, assignments = assignments)
+
+
+@views.route("/link-discord", methods=["GET", "POST"])
+@login_required
+def link_discord():
+    if request.method == "POST":
+        code = request.form.get("code", "").strip().upper()
+        link_code = LinkCode.query.filter_by(code=code).first()
+
+        if not link_code:
+            flash("Invalid code.", category="error")
+        elif link_code.is_expired():
+            db.session.delete(link_code)
+            db.session.commit()
+            flash("That code expired. Run /link in Discord again for a new one.", category="error")
+        elif User.query.filter_by(discord_id=link_code.discord_id).first():
+            flash("That Discord account is already linked to another Stracker account.", category="error")
+        else:
+            current_user.discord_id = link_code.discord_id
+            db.session.delete(link_code)
+            db.session.commit()
+            flash("Discord account linked!", category="success")
+            return redirect("/dashboard")
+
+    return render_template("link_discord.html", user=current_user)
 
 
 @views.route("/delete-assignment/<int:id>", methods=["POST"])
