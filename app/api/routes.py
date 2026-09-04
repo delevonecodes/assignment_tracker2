@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
 from functools import wraps
+from datetime import datetime
 import os
 from app import db
-from app.models import User, LinkCode
+from app.models import User, LinkCode, Assignment
  
 api = Blueprint('api', __name__)
 
@@ -52,7 +53,6 @@ def unlink():
     user = User.query.filter_by(discord_id=str(discord_id)).first()
     if not user:
         return jsonify({"error": "not_linked"}), 404
- 
     user.discord_id = None
     db.session.commit()
     return jsonify({"unlinked": True}), 200
@@ -69,3 +69,52 @@ def link_status():
     if user:
         return jsonify({"linked": True, "username": user.username}), 200
     return jsonify({"linked": False}), 200
+
+@api.route("/add-assignment", methods=["POST"])
+@require_api_key
+def add_assignment():
+    data = request.get_json(silent=True) or {}
+    discord_id = data.get("discord_id")
+    if not discord_id:
+        return jsonify({"error": "discord_id is required"}), 400
+    user = User.query.filter_by(discord_id=str(discord_id)).first()
+    if not user:
+        return jsonify({"error": "not_linked"}), 404
+
+    name = data.get("assignment_name")
+    course = data.get("course")
+    priority = data.get("priority")
+    due_date = data.get("due_date")
+    notes = data.get("description")
+
+    if not name or not course or not due_date:
+        return jsonify({"error": "missing_fields"}), 400
+
+    try:
+        due_date_obj = datetime.strptime(due_date, "%Y-%m-%d").date()
+    except (ValueError, TypeError):
+        return jsonify({"error": "invalid_due_date"}), 400
+
+    try:
+        assignment = Assignment(
+            name=name,
+            course=course,
+            priority=priority,
+            due_date=due_date_obj,
+            notes=notes,
+            student=user.id
+        )
+        db.session.add(assignment)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error creating assignment via API: {e}")
+        return jsonify({"error": "server_error"}), 500
+
+    return jsonify({
+        "id": assignment.id,
+        "name": assignment.name,
+        "course": assignment.course,
+        "priority": assignment.priority,
+        "due_date": assignment.due_date.isoformat()
+    }), 201
