@@ -15,4 +15,5 @@ def get_month_info():
             week.append(month_iter[i])
             i += 1
         info.append(week)
+    print(info)
     return info, today.strftime("%B") + " " + current_year
