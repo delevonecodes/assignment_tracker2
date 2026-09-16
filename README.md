@@ -4,7 +4,7 @@ Stracker is a full-stack assignment management web application built with Flask 
 
 ## Live Demo
 
-https://stracker-oxu6.onrender.com/
+https://stracker-skpv.onrender.com/
 
 ## Screenshots
 
